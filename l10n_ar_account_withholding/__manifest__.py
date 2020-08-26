@@ -34,6 +34,7 @@
         'views/res_partner_arba_alicuot_views.xml',
         'views/res_partner_view.xml',
         'views/account_tax_view.xml',
+        'views/withholding_earnings_view.xml',
         'data/tabla_ganancias_data.xml',
         'data/account_tax_withholding_template.xml',
     ],

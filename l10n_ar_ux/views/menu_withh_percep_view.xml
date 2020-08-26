@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem id="account_perception_menu"
+                  name="Perceptions"
+                  parent="account.menu_finance_entries"
+                  sequence="31"/>
+
+        <menuitem id="account_withholding_menu"
+                  name="Withholdings"
+                  parent="account.menu_finance_entries"
+                  sequence="32"/>
+        <menuitem
+            id="export_data_menu" name="Withholdings and Perceptions"
+            parent="account.menu_finance_reports"
+            groups="account.group_account_user"
+            sequence="100" />
+
+        <record id="action_account_report_withh_perc" model="ir.actions.client">
+            <field name="name">Withholdings and Perceptions Report</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'model': 'report.withholding.perception'}" />
+        </record>
+
+        <menuitem
+            id="action_account_report_withh_perc_menu"
+            name="Informe de Retenciones y Percepciones"
+            action="action_account_report_withh_perc"
+            parent="export_data_menu"
+            sequence="1"
+        />
+
+    </data>
+</odoo>

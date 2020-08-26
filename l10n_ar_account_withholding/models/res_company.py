@@ -230,3 +230,21 @@ class ResCompany(models.Model):
         _logger.info("We've got the following data: \n%s" % data)
 
         return data
+
+    def get_tax_withholdings_suffered(self):
+        action = self.env.ref('l10n_ar_account_withholding.action_earnings_perceptions_account_move_line').read()[0]
+        action['name'] = _('Withholdings suffered')
+        tax_ids = self.env['account.tax'].search([('type_tax_use', '=', 'customer')])
+        if tax_ids:
+            action['domain'] = [('tax_line_id', 'in', tax_ids.ids)]
+        return action
+
+    def get_tax_withholdings_earnings_practiced(self):
+        action = self.env.ref('l10n_ar_account_withholding.action_earnings_perceptions_account_move_line').read()[0]
+        action['name'] = _('Withholdings of earnings practiced')
+        tax_ids = self.env['account.tax'].search([('withholding_type', '=', 'tabla_ganancias'),
+                                                  ('type_tax_use', '=', 'supplier')])
+        if tax_ids:
+            action['domain'] = [('tax_line_id', 'in', tax_ids.ids)]
+        return action
+

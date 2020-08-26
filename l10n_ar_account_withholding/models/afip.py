@@ -49,3 +49,9 @@ class AfipTablagananciasAlicuotasymontos(models.Model):
     )
     montos_no_sujetos_a_retencion = fields.Float(
     )
+    minimo_retencion_inscripto = fields.Float(
+        'Retencion Minima Inscripto'
+    )
+    minimo_retencion_no_inscripto = fields.Float(
+        'Retencion Minima No Inscripto'
+    )
