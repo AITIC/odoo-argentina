@@ -649,12 +649,12 @@ msgstr "Informe de Retenciones y Percepciones"
 #: model:ir.ui.menu,name:l10n_ar_ux.export_data_menu
 #, python-format
 msgid "Withholdings and Perceptions"
-msgstr ""
+msgstr "Retenciones y Percepciones"
 
 #. module: l10n_ar_ux
 #: model:ir.actions.client,name:l10n_ar_ux.action_account_report_withh_perc
 msgid "Withholdings and Perceptions Report"
-msgstr "Retenciones y Percepciones"
+msgstr "Informe Retenciones y Percepciones"
 
 #. module: l10n_ar_ux
 #: model:ir.model,name:l10n_ar_ux.model_afip_activity
