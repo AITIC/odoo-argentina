@@ -654,7 +654,7 @@ msgstr "Retenciones y Percepciones"
 #. module: l10n_ar_ux
 #: model:ir.actions.client,name:l10n_ar_ux.action_account_report_withh_perc
 msgid "Withholdings and Perceptions Report"
-msgstr "Informe Retenciones y Percepciones"
+msgstr "Informe de Retenciones y Percepciones"
 
 #. module: l10n_ar_ux
 #: model:ir.model,name:l10n_ar_ux.model_afip_activity

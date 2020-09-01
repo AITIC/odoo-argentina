@@ -45,9 +45,9 @@
         'account_withholding_automatic',
         'l10n_ar_ux',
     ],
-    'external_dependencies': {
-        'python': ['pyafipws'],
-    },
+    # 'external_dependencies': {
+    #     'python': ['pyafipws'],
+    # },
     'installable': True,
     'name': 'Automatic Argentinian Withholdings on Payments',
     'version': "13.0.1.0.0",
