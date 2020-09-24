@@ -299,6 +299,8 @@
         <field name="porcentaje_inscripto">0.5</field>
         <field name="porcentaje_no_inscripto">2</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_21">
@@ -308,6 +310,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">3</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_22">
@@ -317,6 +321,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">3</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_23">
@@ -326,6 +332,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">10</field>
         <field name="montos_no_sujetos_a_retencion">76140</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_24">
@@ -335,6 +343,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">31460</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_99">
@@ -344,6 +354,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">3</field>
         <field name="montos_no_sujetos_a_retencion">1000</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
 <!--
