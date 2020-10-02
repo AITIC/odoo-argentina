@@ -17,6 +17,11 @@ class AccountTax(models.Model):
             ('partner_tax', 'Alícuota en el Partner'),
         ])
     )
+    minimum_perception_amount = fields.Float(
+        'Minimum perception amount',
+        digits='Account',
+        help="The perception amount must be greater than this amount to apply the perception."
+    )
     # default_alicuot = fields.Float(
     #     'Alícuota por defecto',
     #     help="Alícuota por defecto para los partners que no figuran en el "
@@ -253,8 +258,11 @@ class AccountTax(models.Model):
                 date = self._context.invoice_date
             except Exception:
                 date = fields.Date.context_today(self)
-            return base_amount * self.get_partner_alicuota_percepcion(
+            amount = base_amount * self.get_partner_alicuota_percepcion(
                 partner, date)
+            if amount < self.minimum_perception_amount:
+                amount = 0.0
+            return amount
         else:
             return super(AccountTax, self)._compute_amount(
                 base_amount, price_unit, quantity, product, partner)
