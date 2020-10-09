@@ -45,3 +45,8 @@ class AccountMoveLine(models.Model):
         except Exception:
             pass
         return super()._compute_price()
+
+    type_tax_use = fields.Selection(related='tax_line_id.type_tax_use', string='Tax Scope',
+                                   readonly=True, store=True)
+
+

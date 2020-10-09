@@ -28,7 +28,6 @@
         'views/afip_activity_view.xml',
         'views/afip_tax_view.xml',
         'views/res_config_settings_views.xml',
-        'views/menu_withh_percep_view.xml',
         'reports/report_payment_group.xml',
         'security/ir.model.access.csv',
     ],
