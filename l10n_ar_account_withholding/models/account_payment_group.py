@@ -17,7 +17,7 @@ class AccountPaymentGroup(models.Model):
 
     retencion_ganancias = fields.Selection([
         # _get_regimen_ganancias,
-        ('imposibilidad_retencion', 'Imposibilidad de Retención'),
+        # ('imposibilidad_retencion', 'Imposibilidad de Retención'),
         ('no_aplica', 'No Aplica'),
         ('nro_regimen', 'Nro Regimen'),
     ],

@@ -49,6 +49,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">10</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_2">
@@ -58,6 +60,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">7870</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_3">
@@ -67,6 +71,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">11200</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_4">
@@ -76,6 +82,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">11200</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">1020</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_5">
@@ -85,6 +93,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">11200</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">1020</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_6">
@@ -94,6 +104,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">7870</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_7">
@@ -103,6 +115,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">7870</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_8">
@@ -112,6 +126,8 @@
         <field name="porcentaje_inscripto">6</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">7870</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_9">
@@ -121,6 +137,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">10</field>
         <field name="montos_no_sujetos_a_retencion">224000</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_10">
@@ -130,6 +148,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">10</field>
         <field name="montos_no_sujetos_a_retencion">224000</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_11">
@@ -139,6 +159,8 @@
         <field name="porcentaje_inscripto">-1</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">10000</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_12">
@@ -148,6 +170,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">67170</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_13">
@@ -157,6 +181,8 @@
         <field name="porcentaje_inscripto">-1</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_14">
@@ -166,6 +192,8 @@
         <field name="porcentaje_inscripto">-1</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">67170</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_15">
@@ -175,6 +203,8 @@
         <field name="porcentaje_inscripto">-1</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_16">
@@ -184,6 +214,8 @@
         <field name="porcentaje_inscripto">-1</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_17">
@@ -193,6 +225,8 @@
         <field name="porcentaje_inscripto">0.25</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">67170</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_18">
@@ -202,6 +236,8 @@
         <field name="porcentaje_inscripto">0.5</field>
         <field name="porcentaje_no_inscripto">2</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_19">
@@ -211,6 +247,8 @@
         <field name="porcentaje_inscripto">0.5</field>
         <field name="porcentaje_no_inscripto">2</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_60">
@@ -220,6 +258,8 @@
         <field name="porcentaje_inscripto">7.00</field>
         <field name="porcentaje_no_inscripto">7.00</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_61">
@@ -229,6 +269,8 @@
         <field name="porcentaje_inscripto">13.00</field>
         <field name="porcentaje_no_inscripto">13.00</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <!-- TODO: si alguien pide implementamos estos regimenes pero hay que adaptar el exportador de sicore para que agregue los campos adicionales de beneficiaros del exterior y ademas que mapee a impuesto 218 en vez de 217 -->
@@ -257,6 +299,8 @@
         <field name="porcentaje_inscripto">0.5</field>
         <field name="porcentaje_no_inscripto">2</field>
         <field name="montos_no_sujetos_a_retencion">0</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_21">
@@ -266,6 +310,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">3</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_22">
@@ -275,6 +321,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">3</field>
         <field name="montos_no_sujetos_a_retencion">16830</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_23">
@@ -284,6 +332,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">10</field>
         <field name="montos_no_sujetos_a_retencion">76140</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_24">
@@ -293,6 +343,8 @@
         <field name="porcentaje_inscripto">2</field>
         <field name="porcentaje_no_inscripto">28</field>
         <field name="montos_no_sujetos_a_retencion">31460</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
     <record model="afip.tabla_ganancias.alicuotasymontos" id="regimen_99">
@@ -302,6 +354,8 @@
         <field name="porcentaje_inscripto">3</field>
         <field name="porcentaje_no_inscripto">3</field>
         <field name="montos_no_sujetos_a_retencion">1000</field>
+        <field name="minimo_retencion_inscripto">240</field>
+        <field name="minimo_retencion_no_inscripto">240</field>
     </record>
 
 <!--

@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="account.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <div name="argentina_localization" position="inside">
-                <div class="col-xs-12 col-md-6 o_setting_box">
+                <div class="col-xs-12 col-md-6 o_setting_box" id="retenciones_ganancias">
                     <div class="o_setting_left_pane"/>
                     <div class="o_setting_right_pane">
                         <label for="regimenes_ganancias_ids" string="Regímenes de ganancias en los que usualmente retiene"/>
