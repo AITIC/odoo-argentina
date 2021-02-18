@@ -754,6 +754,7 @@ msgstr ""
 msgid "Journal Entries"
 msgstr ""
 
+#. module: l10n_ar_account_withholding
 #: model_terms:ir.ui.view,arch_db:l10n_ar_account_withholding.res_config_settings_view_form
 msgid "Indique la clave CIT si utiliza padrón de ARBA de ret/perc de iibb."
 msgstr ""
@@ -832,6 +833,7 @@ msgstr ""
 msgid "Nro Regimen"
 msgstr "Nro Regimen"
 
+#. module: l10n_ar_account_withholding
 #: model:ir.model.fields.selection,name:l10n_ar_account_withholding.selection__account_payment_group__retencion_ganancias__nro_regimen
 msgid "Nro Regimen"
 msgstr ""
@@ -1068,6 +1070,8 @@ msgstr ""
 #, python-format
 msgid "You must configure ARBA CIT on company %s"
 msgstr "Debe configurar el CIT de ARA en la compañía %s"
+
+#. module: l10n_ar_account_withholding
 #: model:ir.model.fields,field_description:l10n_ar_account_withholding.field_account_payment__withholding_minimum
 msgid "Withholding Minimum"
 msgstr "Mínimo a Retener"

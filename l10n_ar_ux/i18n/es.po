@@ -577,6 +577,7 @@ msgstr "Número..."
 msgid "Observaciones:"
 msgstr ""
 
+#. module: l10n_ar_ux
 #: code:addons/l10n_ar_ux/models/report_withholding_perception.py:0
 #, python-format
 msgid "Organization"
