@@ -17,6 +17,11 @@ class AccountTax(models.Model):
             ('partner_tax', 'Alícuota en el Partner'),
         ])
     )
+    minimum_perception_amount = fields.Float(
+        'Minimum perception amount',
+        digits='Account',
+        help="The perception amount must be greater than this amount to apply the perception."
+    )
     # default_alicuot = fields.Float(
     #     'Alícuota por defecto',
     #     help="Alícuota por defecto para los partners que no figuran en el "
@@ -54,6 +59,18 @@ class AccountTax(models.Model):
         return (
             previos_payment_groups_domain,
             previos_payments_domain)
+
+    def _get_computed_withholding_amount(self, payment_group, vals):
+        currency = payment_group.currency_id
+        period_withholding_amount = currency.round(vals.get(
+            'period_withholding_amount', 0.0))
+        previous_withholding_amount = currency.round(vals.get(
+            'previous_withholding_amount'))
+        computed_withholding_amount = max(0, (period_withholding_amount - previous_withholding_amount))
+        if vals.get('withholding_minimum'):
+            if vals['withholding_minimum'] > computed_withholding_amount:
+                computed_withholding_amount = 0.0
+        return computed_withholding_amount
 
     def get_withholding_vals(self, payment_group):
         commercial_partner = payment_group.commercial_partner_id
@@ -126,12 +143,18 @@ class AccountTax(models.Model):
                         regimen.porcentaje_inscripto / 100.0)
                     vals['comment'] = "%s x %s" % (
                         base_amount, regimen.porcentaje_inscripto / 100.0)
+                minimum_amount = (
+                    regimen.minimo_retencion_inscripto)
+                vals['withholding_minimum'] = minimum_amount
             elif imp_ganancias_padron == 'NI':
                 # alicuota no inscripto
                 amount = base_amount * (
                     regimen.porcentaje_no_inscripto / 100.0)
                 vals['comment'] = "%s x %s" % (
                     base_amount, regimen.porcentaje_no_inscripto / 100.0)
+                minimum_amount = (
+                    regimen.minimo_retencion_no_inscripto)
+                vals['withholding_minimum'] = minimum_amount
             # TODO, tal vez sea mejor utilizar otro campo?
             vals['communication'] = "%s - %s" % (
                 regimen.codigo_de_regimen, regimen.concepto_referencia)
@@ -231,7 +254,11 @@ class AccountTax(models.Model):
             partner=None):
         if self.amount_type == 'partner_tax':
             date = self._context.get('invoice_date', fields.Date.context_today(self))
-            return base_amount * self.get_partner_alicuota_percepcion(partner, date)
+            amount = base_amount * self.get_partner_alicuota_percepcion(
+                partner, date)
+            if amount < self.minimum_perception_amount:
+                amount = 0.0
+            return amount
         else:
             return super(AccountTax, self)._compute_amount(
                 base_amount, price_unit, quantity, product, partner)

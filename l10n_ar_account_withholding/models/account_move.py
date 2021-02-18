@@ -64,3 +64,5 @@ class AccountMoveLine(models.Model):
     # teniendo en cuenta la fecha que podria pasarse en vals_list
     # @api.model_create_multi
     # def create(self, vals_list):
+    type_tax_use = fields.Selection(related='tax_line_id.type_tax_use', string='Tax Scope',
+                                   readonly=True, store=True)
