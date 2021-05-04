@@ -12,6 +12,8 @@
                 <field name="porcentaje_inscripto"/>
                 <field name="porcentaje_no_inscripto"/>
                 <field name="montos_no_sujetos_a_retencion"/>
+                <field name="minimo_retencion_inscripto"/>
+                <field name="minimo_retencion_no_inscripto"/>
             </tree>
         </field>
     </record>
