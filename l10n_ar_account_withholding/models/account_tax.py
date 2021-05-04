@@ -254,6 +254,7 @@ class AccountTax(models.Model):
             partner=None):
         if self.amount_type == 'partner_tax':
             date = self._context.get('invoice_date', fields.Date.context_today(self))
+            partner = partner and partner.sudo()
             amount = base_amount * self.get_partner_alicuota_percepcion(
                 partner, date)
             if amount < self.minimum_perception_amount:

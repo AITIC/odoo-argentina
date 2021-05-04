@@ -1,6 +1,6 @@
 {
     'name': 'Argentinian Accounting UX',
-    'version': "13.0.1.13.0",
+    'version': "13.0.1.19.0",
     'category': 'Localization/Argentina',
     'sequence': 14,
     'author': 'ADHOC SA',
@@ -28,10 +28,14 @@
         'views/afip_activity_view.xml',
         'views/afip_tax_view.xml',
         'views/report_invoice.xml',
-        'views/res_config_settings_views.xml',
+        'views/account_payment_view.xml',
+        'views/account_journal_views.xml',
+        'wizards/res_config_settings_views.xml',
         'reports/account_invoice_report_view.xml',
         'reports/report_payment_group.xml',
         'security/ir.model.access.csv',
+        'security/l10n_ar_ux_security.xml',
+        'data/res_groups_data.xml',
     ],
     'demo': [
     ],
