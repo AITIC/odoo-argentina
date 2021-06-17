@@ -9,13 +9,14 @@ class AccountTax(models.Model):
     amount_type = fields.Selection(
         selection_add=([
             ('partner_tax', 'Alícuota en el Partner'),
-        ])
+        ]), ondelete={'partner_tax': lambda r: r.write({'amount_type': 'sale'})}
     )
     withholding_type = fields.Selection(
         selection_add=([
             ('tabla_ganancias', 'Tabla Ganancias'),
             ('partner_tax', 'Alícuota en el Partner'),
-        ])
+        ]), ondelete={'tabla_ganancias': lambda r: r.write({'withholding_type': 'none'}),
+                     'partner_tax': lambda r: r.write({'withholding_type': 'none'})}
     )
     minimum_perception_amount = fields.Float(
         'Minimum perception amount',
@@ -156,7 +157,7 @@ class AccountTax(models.Model):
                     regimen.minimo_retencion_no_inscripto)
                 vals['withholding_minimum'] = minimum_amount
             # TODO, tal vez sea mejor utilizar otro campo?
-            vals['communication'] = "%s - %s" % (
+            vals['ref'] = "%s - %s" % (
                 regimen.codigo_de_regimen, regimen.concepto_referencia)
             vals['period_withholding_amount'] = amount
         return vals

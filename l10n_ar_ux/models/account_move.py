@@ -83,7 +83,7 @@ class AccountMove(models.Model):
                 rec.l10n_latam_document_type_id.doc_code_prefix, number['point_of_sale'], number['invoice_number'])
 
             domain = [
-                ('type', '=', rec.type),
+                ('move_type', '=', rec.move_type),
                 # by validating name we validate l10n_latam_document_number and l10n_latam_document_type_id
                 '|', ('name', '=', old_name_compat), ('name', '=', rec.name),
                 ('company_id', '=', rec.company_id.id),

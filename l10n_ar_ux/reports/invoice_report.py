@@ -33,7 +33,7 @@ class AccountInvoiceReport(models.Model):
             move.currency_id as invoice_currency_id,
             line.discount,
             line.price_unit * line.quantity * line.discount/100 *
-                (CASE WHEN move.type IN ('in_refund','out_refund','in_receipt') THEN -1 ELSE 1 END) as discount_amount
+                (CASE WHEN move.move_type IN ('in_refund','out_refund','in_receipt') THEN -1 ELSE 1 END) as discount_amount
             """
 
     def _group_by(self):
