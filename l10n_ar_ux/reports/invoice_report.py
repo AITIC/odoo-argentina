@@ -21,9 +21,9 @@ class AccountInvoiceReport(models.Model):
     # price_gross_subtotal
 
     # use monetary field instead of float
-    amount_total = fields.Monetary()
-    price_subtotal = fields.Monetary()
-    price_average = fields.Monetary()
+    #amount_total = fields.Monetary()
+    #price_subtotal = fields.Monetary()
+    #price_average = fields.Monetary()
 
     _depends = {'account.move': ['currency_id'], 'account.move.line': ['price_unit', 'discount']}
 
