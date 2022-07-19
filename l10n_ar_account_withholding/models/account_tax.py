@@ -165,7 +165,8 @@ class AccountTax(models.Model):
     def get_partner_alicuota_percepcion(self, partner, date):
         if partner and date:
             arba = self.get_partner_alicuot(partner, date)
-            return arba.alicuota_percepcion / 100.0
+            if arba:
+                return arba.alicuota_percepcion / 100.0
         return 0.0
 
     def get_partner_alicuot(self, partner, date):
