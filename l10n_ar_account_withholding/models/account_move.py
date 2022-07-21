@@ -30,10 +30,7 @@ class AccountMove(models.Model):
                     tax_amount += tax.with_context(force_price_include=False, calculate_perception=True)._compute_amount(
                         line.price_subtotal, line.price_subtotal, 1.0, line.product_id, line.partner_id)
                 if tax_amount >= tax.minimum_perception_amount:
-                    move.invoice_line_ids._onchange_mark_recompute_taxes()
-                    move.invoice_line_ids.with_context(calculate_perception=True)._onchange_price_subtotal()
-                    move.with_context(calculate_perception=True)._onchange_invoice_line_ids()
-                    move._compute_invoice_taxes_by_group()
+                    move.with_context(calculate_perception=True).update_partner_tax_iibb_invoice()
         return res
 
     def _get_tax_factor(self):
