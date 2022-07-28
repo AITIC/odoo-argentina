@@ -85,11 +85,14 @@ class AccountMove(models.Model):
             domain = [
                 ('move_type', '=', rec.move_type),
                 # by validating name we validate l10n_latam_document_number and l10n_latam_document_type_id
-                '|', ('name', '=', old_name_compat), ('name', '=', rec.name),
                 ('company_id', '=', rec.company_id.id),
                 ('id', '!=', rec.id),
                 ('commercial_partner_id', '=', rec.commercial_partner_id.id)
             ]
+            if rec.name != '/':
+                domain += ['|', ('name', '=', old_name_compat), ('name', '=', rec.name)]
+            else:
+                domain += [('name', '=', old_name_compat)]
             if rec.search(domain):
                 raise ValidationError(_('Vendor bill number must be unique per vendor and company.'))
 
