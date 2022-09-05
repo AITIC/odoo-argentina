@@ -30,7 +30,8 @@ class AccountMove(models.Model):
                     tax_amount += tax.with_context(force_price_include=False, calculate_perception=True)._compute_amount(
                         line.price_subtotal, line.price_subtotal, 1.0, line.product_id, line.partner_id)
                 if tax_amount >= tax.minimum_perception_amount:
-                    move.with_context(calculate_perception=True).update_partner_tax_iibb_invoice()
+                    if move.move_type != 'out_refund':
+                        move.with_context(calculate_perception=True).update_partner_tax_iibb_invoice()
         return res
 
     def _get_tax_factor(self):
