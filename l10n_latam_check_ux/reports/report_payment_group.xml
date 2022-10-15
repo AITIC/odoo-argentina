@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payment_group_document" inherit_id="l10n_ar_ux.report_payment_group_document">
+        <xpath expr="//t[@t-foreach='o.payment_ids.filtered(lambda x: x.tax_withholding_id)']" position="before">
+            <t t-foreach="o.payment_ids.filtered(lambda x: x.payment_method_code in ['check_printing', 'new_third_party_checks', 'in_third_party_checks', 'out_third_party_checks']).sorted(key=lambda r:r.l10n_latam_check_payment_date or r.date)" t-as="line">
+                <t t-set="check" t-value="line.l10n_latam_check_id or line"/>
+                <tr>
+                    <td>
+                        <span t-out='"Cheque %s nro %s - %s" % ("electrónico " if line.l10n_latam_checkbook_id.type == "electronic" else "", line.check_number, line.l10n_latam_check_bank_id.name or line.journal_id.name)'/><span t-if="line.l10n_latam_check_payment_date"> - Venc. <span t-field="line.l10n_latam_check_payment_date"/></span>
+                    </td>
+                    <td  class="text-right" t-if="any(o.mapped('payment_ids.other_currency'))">
+                        <t t-if="line.currency_id">
+                            <span class="text-nowrap" t-field="line.signed_amount" t-field-options='{"widget": "monetary",  "display_currency": "line.currency_id"}'/>
+                        </t>
+                    </td>
+                    <td class="text-right o_price_total">
+                        <span class="text-nowrap" t-field="line.l10n_ar_amount_company_currency_signed"/>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

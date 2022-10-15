@@ -62,7 +62,7 @@
                 </thead>
                 <tbody>
                     <!-- TODO podriamos unir todos los pagos en un foreach y cambiar la descripción segun el tipo de pago, deberiamos hacer un sort acorde al inicio -->
-                    <t t-foreach="o.payment_ids.filtered(lambda x: x.payment_method_code in ['check_printing', 'new_third_party_checks', 'in_third_party_checks', 'out_third_party_checks']).sorted(key=lambda r:r.l10n_latam_check_payment_date or r.date)" t-as="line">
+                    <!--<t t-foreach="o.payment_ids.filtered(lambda x: x.payment_method_code in ['check_printing', 'new_third_party_checks', 'in_third_party_checks', 'out_third_party_checks']).sorted(key=lambda r:r.l10n_latam_check_payment_date or r.date)" t-as="line">
                         <t t-set="check" t-value="line.l10n_latam_check_id or line"/>
                         <tr>
                             <td>
@@ -77,7 +77,7 @@
                                 <span class="text-nowrap" t-field="line.l10n_ar_amount_company_currency_signed"/>
                             </td>
                         </tr>
-                    </t>
+                    </t>-->
                     <t t-foreach="o.payment_ids.filtered(lambda x: x.tax_withholding_id)" t-as="line">
                         <tr>
                             <td>

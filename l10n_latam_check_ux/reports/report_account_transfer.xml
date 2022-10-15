@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_account_transfer_document" inherit_id="l10n_ar_ux.report_account_transfer_document">
+        <xpath expr="//span[@t-field='o.ref']" position="after">
+            <br/>
+            <br/>
+            <strong t-if="o.l10n_latam_check_id.check_number">Nro de Cheque:</strong>
+            <span t-if="o.l10n_latam_check_id.check_number" t-field="o.l10n_latam_check_id.check_number"/>
+            <br t-if="o.l10n_latam_check_id.check_number"/>
+            <strong  t-if="o.l10n_latam_check_id.l10n_latam_check_payment_date">Fecha de Pago:</strong>
+            <span t-if="o.l10n_latam_check_id.l10n_latam_check_payment_date" t-field="o.l10n_latam_check_id.l10n_latam_check_payment_date"/>
+            <br t-if="o.l10n_latam_check_id.l10n_latam_check_payment_date" />
+            <strong t-if="o.l10n_latam_check_id.l10n_latam_check_bank_id">Banco:</strong>
+            <span t-field="o.l10n_latam_check_id.l10n_latam_check_bank_id"/>
+        </xpath>
+    </template>
+
+</odoo>

@@ -39,7 +39,7 @@
                 <span t-field="o.ref"/>
                 <br/>
                 <br/>
-                <strong t-if="o.l10n_latam_check_id.check_number">Nro de Cheque:</strong>
+                <!--<strong t-if="o.l10n_latam_check_id.check_number">Nro de Cheque:</strong>
                 <span t-if="o.l10n_latam_check_id.check_number" t-field="o.l10n_latam_check_id.check_number"/>
                 <br t-if="o.l10n_latam_check_id.check_number"/>
                 <strong  t-if="o.l10n_latam_check_id.l10n_latam_check_payment_date">Fecha de Pago:</strong>
@@ -47,7 +47,7 @@
                 <br t-if="o.l10n_latam_check_id.l10n_latam_check_payment_date" />
                 <strong t-if="o.l10n_latam_check_id.l10n_latam_check_bank_id">Banco:</strong>
                 <span t-field="o.l10n_latam_check_id.l10n_latam_check_bank_id"/>
-                <br/>
+                <br/>-->
             </div>
         </t>
     </template>
