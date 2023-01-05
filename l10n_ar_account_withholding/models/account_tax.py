@@ -257,8 +257,8 @@ class AccountTax(models.Model):
             partner = partner and partner.sudo()
             amount = base_amount * self.get_partner_alicuota_percepcion(
                 partner, date)
-            if amount < self.minimum_perception_amount:
-                amount = 0.0
+            #if amount < self.minimum_perception_amount:
+            #    amount = 0.0
             return amount
         else:
             return super(AccountTax, self)._compute_amount(
