@@ -123,9 +123,9 @@
                 <thead>
                     <tr>
                         <th><span>Comprobantes Imputados</span></th>
-                        <th class="text-center"><span>Fechass Venc.</span></th>
-                        <th class="text-right"><span>Importe Osasriginal</span></th>
-                        <th class="text-right"><span>Importe aImputado</span></th>
+                        <th class="text-center"><span>Fechas Venc.</span></th>
+                        <th class="text-right"><span>Importe Original</span></th>
+                        <th class="text-right"><span>Importe Imputado</span></th>
                     </tr>
                 </thead>
                 <tbody>
