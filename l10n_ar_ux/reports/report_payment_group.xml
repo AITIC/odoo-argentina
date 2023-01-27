@@ -84,9 +84,8 @@
                                 <span t-out="&quot;%s - %s&quot; % (line.tax_withholding_id.name, line.withholding_number or line.name)"/>
                             </td>
                             <td class="text-right" t-if="any(o.mapped('payment_ids.other_currency'))">
-                                <t t-if="line.other_currency">
-                                    <span class="text-nowrap" t-field="line.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;,  &quot;display_currency&quot;: &quot;line.currency_id&quot;}"/>
-                                </t>
+                                    <span class="text-nowrap" t-out="line.amount if line.currency_id.id != line.company_id.currency_id.id else line.l10n_ar_amount_company_currency_signed" t-options="{&quot;widget&quot;: &quot;monetary&quot;,  &quot;display_currency&quot;: &quot;line.currency_id&quot;}"/>
+                                
                             </td>
                             <td class="text-right o_price_total">
                                 <span class="text-nowrap" t-field="line.l10n_ar_amount_company_currency_signed"/>
@@ -99,9 +98,7 @@
                                 <span t-field="line.journal_id.name"/>
                             </td>
                             <td class="text-right" t-if="any(o.mapped('payment_ids.other_currency'))">
-                               <t t-if="line.other_currency">
-                                <span class="text-nowrap" t-field="line.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;,  &quot;display_currency&quot;: &quot;line.currency_id&quot;}"/>
-                              </t>
+                                <span class="text-nowrap" t-out="line.amount if line.currency_id.id != line.company_id.currency_id.id else line.l10n_ar_amount_company_currency_signed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: line.currency_id}"/>
                             </td>
                             <td class="text-right o_price_total">
                                 <span class="text-nowrap" t-field="line.l10n_ar_amount_company_currency_signed"/>
@@ -126,9 +123,9 @@
                 <thead>
                     <tr>
                         <th><span>Comprobantes Imputados</span></th>
-                        <th class="text-center"><span>Fecha Venc.</span></th>
-                        <th class="text-right"><span>Importe Original</span></th>
-                        <th class="text-right"><span>Importe Imputado</span></th>
+                        <th class="text-center"><span>Fechass Venc.</span></th>
+                        <th class="text-right"><span>Importe Osasriginal</span></th>
+                        <th class="text-right"><span>Importe aImputado</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,12 +136,8 @@
                                 <span class="text-nowrap" t-field="line.date_maturity"/>
                             </td>
                             <td class="text-right o_price_total">
-                            <t t-if="line.amount_currency > 0">
-                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.amount_currency" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: line.currency_id}"/>
-                            </t>
-                            <t t-else="">
-                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.balance" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-                            </t>
+                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.amount_currency if line.amount_currency > 0 else line.balance " t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: line.currency_id}"/>
+
 
                             </td>
                             <td class="text-right o_price_total">
