@@ -135,15 +135,21 @@
                             <td class="text-center">
                                 <span class="text-nowrap" t-field="line.date_maturity"/>
                             </td>
-                            <td class="text-right o_price_total">
-                            <t t-if="abs(line.amount_currency) > 0">
-                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.amount_currency" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: line.currency_id}"/>
-                            </t>
-                            <t t-else="">
-                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.balance" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
-                            </t>
 
+                            <td class="text-right o_price_total">
+                              <t t-if="abs(line.amount_currency)>0">
+                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.amount_currency " t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: line.currency_id}"/>
+
+                              </t>
+
+                            <t t-else="">
+
+                               <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.balance " t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: line.company_currency_id}"/>
+
+                            </t>
+                            
                             </td>
+
                             <td class="text-right o_price_total">
                                 <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.payment_group_matched_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
                             </td>
