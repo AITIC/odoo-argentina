@@ -67,49 +67,17 @@ class AccountMove(models.Model):
         need_currency_rate = self.filtered(lambda x: x.currency_id and x.company_id and (x.currency_id != x.company_id.currency_id))
         remaining = self - need_currency_rate
         for rec in need_currency_rate:
-            rec.computed_currency_rate = rec.currency_id._convert(
-                1.0, rec.company_id.currency_id, rec.company_id,
-                # para previsualizar lo que sería la tasa usamos la fecha contable, sino usamos la fecha al día de hoy
-                # la fecha contable en facturas de venta realmente está seteada cuando el invoice_date está activo o
-                # posterior a la validación de la factura es por eso que comparamos invoice_date
-                date=rec.date if rec.invoice_date else fields.Date.context_today(rec),
-                round=False)
+            if rec.l10n_ar_currency_rate:
+                rec.computed_currency_rate = rec.l10n_ar_currency_rate
+            else:
+                rec.computed_currency_rate = rec.currency_id._convert(
+                    1.0, rec.company_id.currency_id, rec.company_id,
+                    # para previsualizar lo que sería la tasa usamos la fecha contable, sino usamos la fecha al día de hoy
+                    # la fecha contable en facturas de venta realmente está seteada cuando el invoice_date está activo o
+                    # posterior a la validación de la factura es por eso que comparamos invoice_date
+                    date=rec.date if rec.invoice_date else fields.Date.context_today(rec),
+                    round=False)
         remaining.computed_currency_rate = 1.0
-
-    @api.model
-    def _l10n_ar_get_document_number_parts(self, document_number, document_type_code):
-        """
-        For compatibility with old invoices/documents we replicate part of previous method
-        https://github.com/ingadhoc/odoo-argentina/blob/12.0/l10n_ar_account/models/account_invoice.py#L234
-        """
-        try:
-            return super()._l10n_ar_get_document_number_parts(document_number, document_type_code)
-        except Exception:
-            _logger.info('Error while getting document number parts, try with backward compatibility')
-        invoice_number = point_of_sale = False
-        if document_type_code in ['33', '99', '331', '332']:
-            point_of_sale = '0'
-            # leave only numbers and convert to integer
-            # otherwise use date as a number
-            if re.search(r'\d', document_number):
-                invoice_number = document_number
-        elif "-" in document_number:
-            splited_number = document_number.split('-')
-            invoice_number = splited_number.pop()
-            point_of_sale = splited_number.pop()
-        elif "-" not in document_number and len(document_number) == 12:
-            point_of_sale = document_number[:4]
-            invoice_number = document_number[-8:]
-        invoice_number = invoice_number and re.sub("[^0-9]", "", invoice_number)
-        point_of_sale = point_of_sale and re.sub("[^0-9]", "", point_of_sale)
-        if not invoice_number or not point_of_sale:
-            raise ValidationError(_(
-                'No pudimos obtener el número de factura y de punto de venta para %s %s. Verifique que tiene un número '
-                'cargado similar a "00001-00000001"') % (document_type_code, document_number))
-        return {
-                'invoice_number': int(invoice_number),
-                'point_of_sale': int(point_of_sale),
-            }
 
     @api.constrains('ref', 'move_type', 'partner_id', 'journal_id', 'invoice_date')
     def _check_duplicate_supplier_reference(self):
@@ -176,6 +144,18 @@ class AccountMove(models.Model):
     def _is_manual_document_number(self):
         res = super()._is_manual_document_number()
         # when issuer is supplier de numbering works opposite (supplier numerate invoices, customer encode bill)
-        if self.journal_id._l10n_ar_journal_issuer_is_supplier():
+        if self.country_code == 'AR' and self.journal_id._l10n_ar_journal_issuer_is_supplier():
             return not res
         return res
+
+    @api.depends('l10n_latam_available_document_type_ids', 'debit_origin_id')
+    def _compute_l10n_latam_document_type(self):
+        """ Sobre escribimos este metodo porque es necesario para poder auto calcular el tipo de documento por defecto
+        de una nota de debito cuando no hay un debit_origin_id definido, puede ser porque simplemente no haya un
+        documento relacionado original o porque hay muchos documentos relacionados pero no puede ser asociados """
+        super()._compute_l10n_latam_document_type()
+        if self.env.context.get('internal_type') == 'debit_note':
+            for rec in self.filtered(lambda x: x.state == 'draft'):
+                document_types = rec.l10n_latam_available_document_type_ids._origin
+                document_types = document_types.filtered(lambda x: x.internal_type == 'debit_note')
+                rec.l10n_latam_document_type_id = document_types and document_types[0].id
