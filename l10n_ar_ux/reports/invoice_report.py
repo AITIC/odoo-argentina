@@ -6,7 +6,7 @@ class AccountInvoiceReport(models.Model):
 
     _inherit = 'account.invoice.report'
 
-    currency_id = fields.Many2one(string='Company Currency', readonly=True)  # change label
+    #currency_id = fields.Many2one(string='Company Currency', readonly=True)  # change label
     invoice_currency_id = fields.Many2one('res.currency', string='Invoice Currency', readonly=True)
     line_id = fields.Many2one('account.move.line', string='Journal Item', readonly=True)
     price_unit = fields.Monetary('Unit Price', readonly=True, currency_field='invoice_currency_id',)
@@ -22,11 +22,11 @@ class AccountInvoiceReport(models.Model):
     # price_gross_subtotal
 
     # use monetary field instead of float
-    amount_total = fields.Monetary()
-    price_subtotal = fields.Monetary()
-    price_average = fields.Monetary(group_operator="avg")
+    #amount_total = fields.Monetary()
+    #price_subtotal = fields.Monetary()
+    #price_average = fields.Monetary()
 
-    _depends = {'account.move': ['currency_id'], 'account.move.line': ['price_unit', 'discount']}
+    _depends = {'account.move.line': ['price_unit', 'discount']}
 
     def _select(self):
         return super()._select() + """,

@@ -5,6 +5,29 @@ class AccountMove(models.Model):
     """ Heredamos todos los metodos que de alguna manera llamen a tax.compute_all y les pasamos la fecha"""
     _inherit = "account.move"
 
+    @api.depends(
+        'line_ids.debit',
+        'line_ids.credit',
+        'line_ids.currency_id',
+        'line_ids.amount_currency',
+        'line_ids.amount_residual',
+        'line_ids.amount_residual_currency',
+        'line_ids.payment_id.state')
+    def _compute_amount(self):
+        res = super()._compute_amount()
+        for move in self.filtered(lambda x: x.state == 'draft'):
+            tax_ids = move.mapped('invoice_line_ids').mapped('tax_ids').filtered(
+                lambda x: x.minimum_perception_amount > 0.0)
+            for tax in tax_ids:
+                tax_amount = 0.0
+                for line in move.mapped('invoice_line_ids').filtered(lambda l: tax in l.tax_ids):
+                    tax_amount += tax.with_context(force_price_include=False,
+                                                   calculate_perception=True)._compute_amount(
+                        line.price_subtotal, line.price_subtotal, 1.0, line.product_id, line.partner_id)
+                if tax_amount >= tax.minimum_perception_amount:
+                    move.with_context(calculate_perception=True).update_partner_tax_iibb_invoice()
+        return res
+
     def _get_tax_factor(self):
         tax_factor = super()._get_tax_factor()
         doc_letter = self.l10n_latam_document_type_id.l10n_ar_letter
@@ -26,6 +49,7 @@ class AccountMove(models.Model):
         invoice_date = invoice.invoice_date or fields.Date.context_today(self)
         self = self.with_context(invoice_date=invoice_date)
         return super(AccountMove, self)._recompute_tax_lines(recompute_tax_base_amount=recompute_tax_base_amount, tax_rep_lines_to_recompute=tax_rep_lines_to_recompute)
+
 
     @api.onchange('invoice_date', 'reversed_entry_id')
     def _onchange_tax_date(self):
@@ -64,3 +88,5 @@ class AccountMoveLine(models.Model):
     # teniendo en cuenta la fecha que podria pasarse en vals_list
     # @api.model_create_multi
     # def create(self, vals_list):
+    type_tax_use = fields.Selection(related='tax_line_id.type_tax_use', string='Tax Scope',
+                                   readonly=True, store=True)

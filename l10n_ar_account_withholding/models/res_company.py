@@ -1,9 +1,9 @@
 from odoo import models, fields, api, _
 # import odoo.tools as tools
-try:
-    from pyafipws.iibb import IIBB
-except ImportError:
-    IIBB = None
+# try:
+#     from pyafipws.iibb import IIBB
+# except ImportError:
+#     IIBB = None
 # from pyafipws.padron import PadronAFIP
 from odoo.exceptions import UserError, RedirectWarning
 import logging
@@ -94,38 +94,31 @@ class ResCompany(models.Model):
                 '/SeguridadCliente/dfeServicioConsulta.do')
         return arba_login_url
 
-    def arba_connect(self):
-        """
-        Method to be called
-        """
-        self.ensure_one()
-        cuit = self.partner_id.ensure_vat()
-
-        if not self.arba_cit:
-            raise UserError(_(
-                'You must configure ARBA CIT on company %s') % (self.name))
-
-        try:
-            ws = IIBB()
-            environment_type = self._get_arba_environment_type()
-            _logger.info(
-                'Getting connection to ARBA on %s mode' % environment_type)
-
-            # argumentos de conectar: self, url=None, proxy="",
-            # wrapper=None, cacert=None, trace=False, testing=""
-            arba_url = self.get_arba_login_url(environment_type)
-            ws.Usuario = cuit
-            ws.Password = self.arba_cit
-            ws.Conectar(url=arba_url)
-            _logger.info(
-                'Connection getted to ARBA with url "%s" and CUIT %s' % (
-                    arba_url, cuit))
-        except ConnectionRefusedError:
-            raise UserError('No se pudo conectar a ARBA para extraer los datos de percepcion/retención.'
-                            ' Por favor espere unos minutos e intente de nuevo. Sino, cargue manualmente'
-                            ' los datos en el cliente para poder operar (fecha %s)' % self.env.context.get('invoice_date'))
-
-        return ws
+    # def arba_connect(self):
+    #     """
+    #     Method to be called
+    #     """
+    #     self.ensure_one()
+    #     cuit = self.partner_id.ensure_vat()
+    #
+    #     if not self.arba_cit:
+    #         raise UserError(_(
+    #             'You must configure ARBA CIT on company %s') % (self.name))
+    #     ws = IIBB()
+    #     environment_type = self._get_arba_environment_type()
+    #     _logger.info(
+    #         'Getting connection to ARBA on %s mode' % environment_type)
+    #
+    #     # argumentos de conectar: self, url=None, proxy="",
+    #     # wrapper=None, cacert=None, trace=False, testing=""
+    #     arba_url = self.get_arba_login_url(environment_type)
+    #     ws.Usuario = cuit
+    #     ws.Password = self.arba_cit
+    #     ws.Conectar(url=arba_url)
+    #     _logger.info(
+    #         'Connection getted to ARBA with url "%s" and CUIT %s' % (
+    #             arba_url, cuit))
+    #     return ws
 
     def get_agip_data(self, partner, date):
         raise UserError(_(
