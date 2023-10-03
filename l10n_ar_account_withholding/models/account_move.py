@@ -48,7 +48,8 @@ class AccountMove(models.Model):
         invoice = self.reversed_entry_id or self
         invoice_date = invoice.invoice_date or fields.Date.context_today(self)
         self = self.with_context(invoice_date=invoice_date)
-        return super(AccountMove, self)._recompute_tax_lines(recompute_tax_base_amount=recompute_tax_base_amount,tax_rep_lines_to_recompute=tax_rep_lines_to_recompute)
+        return super(AccountMove, self)._recompute_tax_lines(recompute_tax_base_amount=recompute_tax_base_amount, tax_rep_lines_to_recompute=tax_rep_lines_to_recompute)
+
 
     @api.onchange('invoice_date', 'reversed_entry_id')
     def _onchange_tax_date(self):
