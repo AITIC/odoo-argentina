@@ -10,44 +10,42 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-=========================
-Argentinian Accounting UX
-=========================
+=============================
+Argentinian Sale Total Fields
+=============================
 
-This module extends the l10n_ar module to add some usability improvesment:
+Add fields in sale orders so that you can print sale orders with vay included
+or not depending on VAT responsabilities
 
-#. Set tax included by default (for ecommerce)
-#. Change USD symbol to "USD" instead of "$". This to avoid confusion when using multi company environment with ARS and USD at the same time.
-#. Change postion of EUR symbol, Put it before the amounts in order to match to the ARS and USD currencies format,
-#. Add portal support for AFIP responsability, and Identification type fields.
-#. Show Currency Rate preview on invoice before posting.
-#. Show final Currency Rate on invoice when already posted.
-#. Add account tag data for Argentina (include jurisdiccion ones)
-#. Add tax groups for withholding
-#. Show Name fantasy in the partner form view.
-#. Set Non Monetary tag to accounts depending of the account type
-#. Show Gross Income Jurisdiction in both partner and company
-#. Add a not nice implementation for duplicado/triplicado on invoices (and later on delivery slip with l10n_ar_stock)
-#. Add checks account link to chart template
+NOTAS PARA MEJORAR Y TRADUCIR:
+* Para usar esta funcionalidad tnees que ir a la compania, pestañá config,
+grupo "sale" y setear si querés y el valor por defecto que querés que tome
+si no hay match (para el caso de facu sería "no_discriminated_default" de
+(manera predeterminada no se discrimnan los impuestos, es decir que si n
+tiene seteado nada el partner entonces no se discrimina)
+* En los presupuestos, igualmente, si lo quiere cambiar ,en la segunda pestaña
+hay un campo "vat discriminated", abajo de posición fiscal, donde se
 
 Installation
 ============
 
 To install this module, you need to:
 
-#. Nothing to do
+#. Only need to install the module
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-#. Nothing to do
+#. Nothing to configure
 
 Usage
 =====
 
 To use this module, you need to:
+
+#. Go to ...
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -57,7 +55,7 @@ Bug Tracker
 ===========
 
 Bugs are tracked on `GitHub Issues
-<https://github.com/ingadhoc/odoo-argentina/issues>`_. In case of trouble, please
+<https://github.com/ingadhoc/argentina-sale/issues>`_. In case of trouble, please
 check there if your issue has already been reported. If you spotted it first,
 help us smashing it by providing a detailed and welcomed feedback.
 

@@ -5,7 +5,7 @@ from odoo import models, fields, api, _
 # except ImportError:
 #     IIBB = None
 # from pyafipws.padron import PadronAFIP
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, RedirectWarning
 import logging
 import json
 import requests
@@ -139,9 +139,12 @@ class ResCompany(models.Model):
             to_date.strftime('%Y%m%d'),
             cuit)
 
+        error = False
+        msg = False
         if ws.Excepcion:
-            raise UserError("%s\nExcepcion: %s" % (
-                ws.Traceback, ws.Excepcion))
+            error = True
+            msg = str((ws.Traceback, ws.Excepcion))
+            _logger.error('Padron ARBA: Excepcion %s' % msg)
 
         # ' Hubo error general de ARBA?
         if ws.CodigoError:
@@ -149,9 +152,21 @@ class ResCompany(models.Model):
                 # we still create the record so we don need to check it again
                 # on same period
                 _logger.info('CUIT %s not present on padron ARBA' % cuit)
+            elif ws.CodigoError == '6':
+                error = True
+                msg = "%s\n Error %s: %s" % (ws.MensajeError, ws.TipoError, ws.CodigoError)
+                _logger.error('Padron ARBA: %s' % msg)
             else:
-                raise UserError("%s\nError %s: %s" % (
-                    ws.MensajeError, ws.TipoError, ws.CodigoError))
+                raise UserError("Padron ARBA: %s\nError %s: %s" % (ws.MensajeError, ws.TipoError, ws.CodigoError))
+
+        if error:
+            action = self.env.ref('l10n_ar_account_withholding.act_company_jurisdiction_padron')
+            raise RedirectWarning(_(
+                "Obtuvimos un error al consultar el Padron ARBA.\n  %s\n\n"
+                "Tiene las siguientes opciones:\n  1) Intentar nuevamente más tarde\n"
+                "  2) Cargar la alícuota manualmente en el partner en cuestión\n"
+                "  3) Subir el archivo del padrón utilizando el asistente de Carga de Padrones") % msg,
+                action.id, _('Ir a Carga de Padrones'))
 
         # no ponemos esto, si no viene alicuota es porque es cero entonces
         # if not ws.AlicuotaRetencion or not ws.AlicuotaPercepcion:
@@ -171,6 +186,7 @@ class ResCompany(models.Model):
         }
         _logger.info('We get the following data: \n%s' % data)
         return data
+
 
     def get_cordoba_data(self, partner, date):
         """ Obtener alícuotas desde app.rentascordoba.gob.ar
