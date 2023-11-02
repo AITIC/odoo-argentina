@@ -30,6 +30,22 @@ class AccountJournal(models.Model):
         required=True,
     )
     l10n_ar_afip_pos_partner_id = fields.Many2one(string='Dirección Punto de venta')
+    is_liquid_product = fields.Boolean(
+        help="Al seleccionar esta opcion se estara saltando la "
+        "validacion para el 'Numero de documento' en la factura."
+        "Esto hara que el 'codigo corto' del diario no se vea "
+        "afectado.",
+        string="Es producto liquido?",
+        store=True,
+        compute='_compute_is_liquid_product',
+        readonly=False,
+    )
+
+    @api.depends('l10n_ar_is_pos')
+    def _compute_is_liquid_product(self):
+        for rec in self:
+            if rec.l10n_ar_is_pos:
+                rec.is_liquid_product = False
 
     @api.onchange('l10n_ar_is_pos')
     def _onchange_l10n_ar_is_pos(self):
