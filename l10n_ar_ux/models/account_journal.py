@@ -35,7 +35,7 @@ class AccountJournal(models.Model):
         "validacion para el 'Numero de documento' en la factura."
         "Esto hara que el 'codigo corto' del diario no se vea "
         "afectado.",
-        string="Es producto liquido?",
+        string="Es líquido producto?",
         store=True,
         compute='_compute_is_liquid_product',
         readonly=False,
