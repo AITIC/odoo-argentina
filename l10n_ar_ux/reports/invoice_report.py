@@ -29,4 +29,4 @@ class AccountInvoiceReport(models.Model):
             """
 
     def _group_by(self):
-        return super()._group_by() + ", move.invoice_currency_id"
+        return super()._group_by() + ", move.currency_id"
