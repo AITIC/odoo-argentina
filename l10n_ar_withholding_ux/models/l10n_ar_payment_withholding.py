@@ -35,7 +35,8 @@ class l10nArPaymentRegisterWithholding(models.Model):
     previous_withholding_amount = fields.Monetary(readonly=True,)
     computed_withholding_amount = fields.Monetary(readonly=True,)
 
-    _sql_constraints = [('uniq_line', 'unique(tax_id, payment_id)', "El impuesto de retención debe ser único por pago")]
+    """CAMBIO REALIZADO POR GG. Sacamos unico impuesto en lineas de retencion"""
+    #_sql_constraints = [('uniq_line', 'unique(tax_id, payment_id)', "El impuesto de retención debe ser único por pago")]
 
     # def _compute_base_amount(self):
 
