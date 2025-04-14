@@ -1,4 +1,4 @@
 httplib2==0.20.4
 git+https://github.com/pysimplesoap/pysimplesoap@a330d9c4af1b007fe1436f979ff0b9f66613136e
 git+https://github.com/AITIC/pyafipws-adhoc@py3k
-git+git+https://github.com/OCA/openupgradelib@3.9.4
+#git+git+https://github.com/OCA/openupgradelib@3.9.4
