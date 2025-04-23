@@ -22,12 +22,12 @@
                 <div class="row">
                     <div name="footer_left_column" class="col-8">
                         <t t-if="not o.company_id.l10n_ar_report_signature">
-                            Observaciones: <span t-field="o.ref"/>
+                            Observations: <span t-field="o.ref"/>
                         </t>
                     </div>
                     <div name="footer_right_column" class="col-4">
                         <t t-if="not o.company_id.l10n_ar_report_signature">
-                            <span class="text-center">Firma y Aclaración</span>
+                            <span class="text-center">Signature and Clarification</span>
                         </t>
                         <div class="text-right" name="pager" t-if="report_type == 'pdf'">
                             Page: <span class="page"/> / <span class="topage"/>
@@ -42,7 +42,7 @@
                         <!-- IDENTIFICACION (ADQUIRIENTE-LOCATARIO-PRESTARIO) -->
 
                         <!-- (14) Apellido uy Nombre: Denominicacion o Razon Soclial -->
-                        <strong><span t-out="o.partner_type == 'supplier' and 'Proveedor: ' or 'Cliente: '"/></strong><span t-field="o.partner_id.commercial_partner_id.name"/>
+                        <strong><span t-if="o.partner_type == 'supplier'">Supplier: </span><span t-if="o.partner_type == 'customer'">Client: </span></strong><span t-field="o.partner_id.commercial_partner_id.name"/>
 
                         <!-- (15) Domicilio Comercial -->
                         <br/>
@@ -61,12 +61,15 @@
             </div>
             <br/>
             <table class="table table-sm o_main_table" name="payments_table">
+                <t t-set="has_pro_currency" t-value="env['account.payment']._fields.get('counterpart_currency_id')"/>
+                <t t-set="secondary_currency" t-value="o.currency_id if o.other_currency else (o.counterpart_currency_id if has_pro_currency else False)"/>                
+                <t t-set="secondary_currency_rate" t-value="o.exchange_rate if o.other_currency else (o.counterpart_exchange_rate if has_pro_currency else False)"/>
                 <thead>
+
                     <tr>
-                        <th><span>Pagos</span></th>
-                        <!-- TODO implementar el other currency -->
-                        <!-- <th class="text-right" t-if="any(o.mapped('payment_ids.other_currency'))"><span>Importe divisa</span></th> -->
-                        <th class="text-right"><span>Importe</span></th>
+                        <th><span>Payments</span></th>
+                        <th class="text-right" t-if="secondary_currency"><span>Amount currency</span></th>
+                        <th class="text-right"><span>Amount</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,36 +95,35 @@
                             <td>
                                 <span t-out='"%s - %s" % (line.tax_id.name, line.name)'/>
                             </td>
-                            <!-- <td class="text-right" t-if="o.other_currency">
-                                <span class="text-nowrap" t-field="line.amount" t-field-options='{"widget": "monetary",  "display_currency": "o.currency_id"}'/>
-                            </td> -->
+                             <td class="text-right" t-if="secondary_currency">
+                                <span class="text-nowrap" t-out="secondary_currency.round(line.amount / secondary_currency_rate) if (has_pro_currency and o.counterpart_currency_id) else secondary_currency.round(line.amount)" t-options='{"widget": "monetary", "display_currency": secondary_currency}'/> 
+                            </td>
                             <td class="text-right o_price_total">
                                 <span class="text-nowrap" t-field="line.amount"/>
                             </td>
                         </tr>
                     </t>
+
                     <tr>
                         <td>
                             <span t-field="o.journal_id.name"/>
                             <span class="text-nowrap" t-out="' - ' + o.l10n_latam_check_number if o.l10n_latam_check_number else False"></span>
                             <span class="text-nowrap" t-out="' - ' + o.l10n_latam_check_id.l10n_latam_check_number if o.l10n_latam_check_id.l10n_latam_check_number else False"></span>
                         </td>
-                        <!-- <td class="text-right" t-if="any(o.mapped('payment_ids.other_currency'))">
-                            <t t-if="line.other_currency">
-                            <span class="text-nowrap" t-field="line.amount_signed" t-field-options='{"widget": "monetary",  "display_currency": "line.currency_id"}'/>
-                            </t>
-                        </td> -->
+                        <td class="text-right" t-if="secondary_currency">   
+                            <span class="text-nowrap" t-out="secondary_currency.round(o.amount / secondary_currency_rate) if (has_pro_currency and o.counterpart_currency_id) else secondary_currency.round(o.amount)" t-options='{"widget": "monetary", "display_currency": secondary_currency}'/>
+                        </td>
                         <td class="text-right o_price_total">
-                            <span class="text-nowrap" t-field="o.amount"/>
+                            <span class="text-nowrap" t-field="o.amount_company_currency_signed"/>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><strong><span>Total Pagado</span></strong></td>
-                        <!-- <td class="text-right" t-if="any(o.mapped('payment_ids.other_currency'))">
-                            <strong t-if="len(o.payment_ids.mapped('currency_id')) == 1 and o.payment_ids.mapped('currency_id') != o.currency_id"> <span class="text-nowrap" t-out="sum(o.payment_ids.mapped('amount_signed'))" t-options="{'widget': 'monetary', 'display_currency': o.payment_ids.mapped('currency_id')}"/></strong>
-                        </td> -->
+                        <td><strong><span>Total Paid</span></strong></td>
+                        <td class="text-right" t-if="secondary_currency">
+                            <strong><span class="text-nowrap" t-out="secondary_currency.round(o.payment_total / secondary_currency_rate)" t-options="{'widget': 'monetary', 'display_currency': secondary_currency}"/></strong>
+                        </td>
                         <td class="text-right">
                             <strong><span class="text-nowrap" t-field="o.payment_total"/></strong>
                         </td>
@@ -132,10 +134,10 @@
             <table class="table table-sm o_main_table" name="matching_table">
                 <thead>
                     <tr>
-                        <th><span>Comprobantes Imputados</span></th>
-                        <th class="text-center"><span>Fecha Venc.</span></th>
-                        <th class="text-right"><span>Importe Original</span></th>
-                        <th class="text-right"><span>Importe Imputado</span></th>
+                        <th><span>Imputed Vouchers</span></th>
+                        <th class="text-center"><span>Exp. Date</span></th>
+                        <th class="text-right"><span>Original Amount</span></th>
+                        <th class="text-right"><span>Imputed Amount</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -146,15 +148,15 @@
                                 <span class="text-nowrap" t-field="line.date_maturity"/>
                             </td>
                             <td class="text-right o_price_total">
-                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.balance" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.balance" t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'/>
                             </td>
                             <td class="text-right o_price_total">
-                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.payment_matched_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                <span class="text-nowrap" t-out="(o.partner_type == 'supplier' and -1.0 or 1.0) * line.payment_matched_amount" t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'/>
                             </td>
                         </tr>
                     </t>
                     <tr t-if="o.unmatched_amount">
-                        <td>A cuenta</td>
+                        <td>On account</td>
                         <td class="text-center"/>
                         <td class="text-right o_price_total"/>
                         <td class="text-right o_price_total">
@@ -164,9 +166,9 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3"><strong><span>Total Imputado</span></strong></td>
+                        <td colspan="3"><strong><span>Total Imputed</span></strong></td>
                         <td class="text-right">
-                            <strong><span class="text-nowrap" t-out="o.unmatched_amount + o.matched_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
+                            <strong><span class="text-nowrap" t-out="o.unmatched_amount + o.matched_amount" t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'/></strong>
                             <!-- <strong><span class="text-nowrap" t-out="o.matched_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong> -->
                         </td>
                     </tr>
@@ -176,10 +178,10 @@
             <table class="table table-sm o_main_table" name="open_table" t-if="o.partner_type=='customer'" groups="l10n_ar_ux.group_include_pending_receivable_documents">
                 <thead>
                     <tr>
-                        <th><span>Comprobantes Pendientes al</span><span t-out="datetime.datetime.today()" t-options='{"widget": "date"}'/></th>
-                        <th class="text-center"><span>Fecha Venc.</span></th>
-                        <th class="text-right"><span>Importe Original</span></th>
-                        <th class="text-right"><span>Saldo</span></th>
+                        <th><span>Vouchers Pending at </span><span t-out="datetime.datetime.today()" t-options='{"widget": "date"}'/></th>
+                        <th class="text-center"><span>Exp. Date</span></th>
+                        <th class="text-right"><span>Original Amount</span></th>
+                        <th class="text-right"><span>Balance</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -200,9 +202,9 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3"><strong><span>Total Pendiente</span></strong></td>
+                        <td colspan="3"><strong><span>Total Pending</span></strong></td>
                         <td class="text-right">
-                            <strong><span class="text-nowrap" t-out="sum(o.env['account.move.line'].search([('partner_id', '=', o.partner_id.commercial_partner_id.id), ('account_id.account_type', '=', o.partner_type=='customer' and 'asset_receivable' or 'liability_payable'), ('reconciled', '=', False), ('account_id.deprecated', '=', False), ('move_id.state', '=', 'posted'), ('company_id', '=', o.company_id.id)]).mapped('amount_residual'))" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
+                            <strong><span class="text-nowrap" t-out="sum(o.env['account.move.line'].search([('partner_id', '=', o.partner_id.commercial_partner_id.id), ('account_id.account_type', '=', o.partner_type=='customer' and 'asset_receivable' or 'liability_payable'), ('reconciled', '=', False), ('account_id.deprecated', '=', False), ('move_id.state', '=', 'posted'), ('company_id', '=', o.company_id.id)]).mapped('amount_residual'))" t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'/></strong>
                         </td>
                     </tr>
                 </tfoot>
