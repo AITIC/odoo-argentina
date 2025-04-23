@@ -32,12 +32,13 @@ class AccountPayment(models.Model):
         super()._compute_payment_total()
         for rec in self:
             rec.payment_total += sum(rec.l10n_ar_withholding_line_ids.mapped('amount'))
-
+    """CAMBIO REALIZADO POR GG """
     @api.onchange('withholdings_amount')
     def _onchange_withholdings(self):
-        for rec in self.filtered(lambda x: x.payment_method_code not in ['in_third_party_checks', 'out_third_party_checks']):
-            # el compute_withholdings o el _compute_withholdings?
-            rec.amount += rec.payment_difference
+        pass
+        # for rec in self.filtered(lambda x: x.payment_method_code not in ['in_third_party_checks', 'out_third_party_checks']):
+        #     # el compute_withholdings o el _compute_withholdings?
+        #     rec.amount += rec.payment_difference
             # rec.unreconciled_amount = rec.to_pay_amount - rec.selected_debt
 
     # # ver mensaje en commit
