@@ -41,14 +41,14 @@ class AccountPayment(models.Model):
         #     rec.amount += rec.payment_difference
             # rec.unreconciled_amount = rec.to_pay_amount - rec.selected_debt
 
-    # ver mensaje en commit
+    # # ver mensaje en commit
     # @api.onchange('to_pay_amount', 'withholdable_advanced_amount', 'partner_id')
     # def _onchange_to_pay_amount(self):
     #     # para muchas retenciones es necesario que el partner este seteado, solo calculamos si viene definido
     #     for rec in self.filtered('partner_id'):
     #         # el compute_withholdings o el _compute_withholdings?
     #         rec._compute_withholdings()
-    #         rec.force_amount_company_currency += rec.payment_difference
+    #         # rec.force_amount_company_currency += rec.payment_difference
     #         # rec.unreconciled_amount = rec.to_pay_amount - rec.selected_debt
 
     # Por ahora no compuamos para no pisar cosas que pueda haber moficiado el usuario. Ademas que ya era así (manual)
@@ -74,7 +74,7 @@ class AccountPayment(models.Model):
                     'Por favor, compute las retenciones para que el importe a pagar se actualice y luego confirme el pago.' % (
                         previous_to_pay, rec.to_pay_amount
                     ))
-        self.filtered('company_id.automatic_withholdings').compute_withholdings()
+        self.compute_withholdings()
         res = super().action_confirm()
         # por ahora primero computamos retenciones y luego conifmamos porque si no en caso de cheques siempre da error
         # TODO tal vez mejorar y advertir de que se va a computar el importe?
@@ -85,7 +85,7 @@ class AccountPayment(models.Model):
         write_off_line_vals = []
         conversion_rate = self.exchange_rate or 1.0
         sign = 1
-        if self.partner_type == 'supplier':
+        if self.payment_type == 'outbound':
             sign = -1
         for line in self.l10n_ar_withholding_line_ids:
             # nuestro approach esta quedando distinto al del wizard. En nuestras lineas tenemos los importes en moneda
@@ -150,6 +150,9 @@ class AccountPayment(models.Model):
         res = super()._prepare_move_line_default_vals(write_off_line_vals, force_balance=force_balance)
         res += self._prepare_witholding_write_off_vals()
         wth_amount = sum(self.l10n_ar_withholding_line_ids.mapped('amount'))
+        conversion_rate = self.exchange_rate or 1.0
+        use_counterpart_exchange_rate = 'counterpart_exchange_rate' in self._fields and self.counterpart_exchange_rate
+
         # TODO: EVALUAR
         # si cambio el valor de la cuenta de liquides quitando las retenciones el campo amount representa el monto que cancelo de la deuda
         # si cambio la cuenta de contraparte (agregando retenciones) el campo amount representa el monto neto que abono al partner
@@ -163,10 +166,12 @@ class AccountPayment(models.Model):
             if account_id.account_type in valid_account_types:
                 if self.payment_type == 'inbound':
                     line['credit'] += wth_amount
-                    line['amount_currency'] -= wth_amount
+                    if not use_counterpart_exchange_rate:
+                        line['amount_currency'] -= wth_amount / conversion_rate
                 elif self.payment_type == 'outbound':
                     line['debit'] += wth_amount
-                    line['amount_currency'] += wth_amount
+                    if not use_counterpart_exchange_rate:
+                        line['amount_currency'] += wth_amount / conversion_rate
         return res
 
     ###################################################

@@ -5,14 +5,15 @@
 # Translators:
 # Pablo Montenegro, 2024
 # Juan José Scarafía <scarafia.juanjose@gmail.com>, 2024
+# Gonzalo, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-26 11:54+0000\n"
+"POT-Creation-Date: 2025-02-11 14:11+0000\n"
 "PO-Revision-Date: 2024-01-30 13:07+0000\n"
-"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2024\n"
+"Last-Translator: Gonzalo, 2024\n"
 "Language-Team: Spanish (https://app.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -401,6 +402,15 @@ msgid "Arba: Alicuota no inscripto retención"
 msgstr ""
 
 #. module: l10n_ar_account_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_ar_account_withholding.view_account_payment_form
+msgid ""
+"Are you sure you want to proceed? Have you reviewed the withholdings "
+"calculations?"
+msgstr ""
+"¿Estás seguro de que deseas continuar? ¿Has revisado los cálculos de las "
+"retenciones?"
+
+#. module: l10n_ar_account_withholding
 #: model:ir.model.fields,field_description:l10n_ar_account_withholding.field_res_partner_arba_alicuot__api_articulo_inciso_calculo_percepcion
 msgid "Artículo/Inciso para el cálculo percepción"
 msgstr ""
@@ -467,6 +477,11 @@ msgid "Company Regimenes Ganancias"
 msgstr ""
 
 #. module: l10n_ar_account_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_ar_account_withholding.view_account_payment_form
+msgid "Compute Withholdings"
+msgstr "Computar Retenciones"
+
+#. module: l10n_ar_account_withholding
 #: model:ir.model.fields,field_description:l10n_ar_account_withholding.field_afip_tabla_ganancias_alicuotasymontos__concepto_referencia
 msgid "Concepto Referencia"
 msgstr ""
@@ -475,6 +490,11 @@ msgstr ""
 #: model:ir.model,name:l10n_ar_account_withholding.model_res_config_settings
 msgid "Config Settings"
 msgstr "Ajustes de configuración"
+
+#. module: l10n_ar_account_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_ar_account_withholding.view_account_payment_form
+msgid "Confirm"
+msgstr ""
 
 #. module: l10n_ar_account_withholding
 #: model:ir.model,name:l10n_ar_account_withholding.model_res_partner
@@ -699,6 +719,11 @@ msgid "Más el %"
 msgstr ""
 
 #. module: l10n_ar_account_withholding
+#: model:ir.model.fields,field_description:l10n_ar_account_withholding.field_account_payment__need_withholding_recompute
+msgid "Need Withholding Recompute"
+msgstr ""
+
+#. module: l10n_ar_account_withholding
 #: model:ir.model.fields.selection,name:l10n_ar_account_withholding.selection__res_partner__drei__no_activo
 msgid "No Activo"
 msgstr ""
@@ -917,6 +942,11 @@ msgid ""
 "                            Tipo de Régimen de Retención/precición (código correspondiente según tabla definida por la jurisdicción).<br/>\n"
 "                            Puede consultar la tabla"
 msgstr ""
+
+#. module: l10n_ar_account_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_ar_account_withholding.view_account_payment_form
+msgid "Withholding may apply. We suggest compute them."
+msgstr "Retenciones podrían ser aplicables. Sugerimos calcularlas."
 
 #. module: l10n_ar_account_withholding
 #. odoo-python

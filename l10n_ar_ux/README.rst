@@ -51,6 +51,10 @@ Usage
 
 To use this module, you need to:
 
+Uninstall
+=========
+After uninstalling this module, redeploy the database to correctly remove monkey patches. 
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: http://runbot.adhoc.com.ar/
@@ -62,6 +66,10 @@ Bugs are tracked on `GitHub Issues
 <https://github.com/ingadhoc/odoo-argentina/issues>`_. In case of trouble, please
 check there if your issue has already been reported. If you spotted it first,
 help us smashing it by providing a detailed and welcomed feedback.
+
+Known issues / Roadmap
+======================
+* Before installing this module, the account_ux module should be installed to avoid errors. This happens due to an unintentional dependency when adding functionality related to currency conversion.
 
 Credits
 =======

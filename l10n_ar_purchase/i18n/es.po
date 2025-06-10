@@ -3,15 +3,16 @@
 # 	* l10n_ar_purchase
 # 
 # Translators:
-# Juan José Scarafía <scarafia.juanjose@gmail.com>, 2024
+# MaxiMezzavilla, 2024
+# Juan José Scarafía <scarafia.juanjose@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-25 13:52+0000\n"
+"POT-Creation-Date: 2025-04-15 15:12+0000\n"
 "PO-Revision-Date: 2024-03-11 20:43+0000\n"
-"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2024\n"
+"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2025\n"
 "Language-Team: Spanish (https://app.transifex.com/adhoc/teams/46451/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,6 +40,11 @@ msgstr "<br/><strong>Su referencia de pedido:</strong>"
 
 #. module: l10n_ar_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document
+msgid "<strong>% VAT</strong>"
+msgstr "<strong>% IVA</strong>"
+
+#. module: l10n_ar_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchasequotation_document
 msgid "<strong>Purchase Representative:</strong>"
 msgstr "<strong>Comprador:</strong>"
@@ -58,7 +64,7 @@ msgstr "<strong>Cond. IVA: </strong>"
 #. module: l10n_ar_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.custom_header_purchaseorder
 msgid "Approve date:"
-msgstr ""
+msgstr "Fecha de aprobación:"
 
 #. module: l10n_ar_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document
@@ -69,7 +75,7 @@ msgstr "Pedido de compra cancelado"
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.custom_header_purchaseorder
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.custom_header_purchasequotation
 msgid "Date due:"
-msgstr ""
+msgstr "Fecha de vencimiento:"
 
 #. module: l10n_ar_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document

@@ -1,6 +1,6 @@
 {
-    'name': 'Argentinean Purchase',
-    'version': "17.0.1.3.0",
+    'name': 'Argentinean Withholding Ratio',
+    'version': "17.0.1.0.0",
     'category': 'Localization/Argentina',
     'sequence': 14,
     'author': 'ADHOC SA',
@@ -8,13 +8,10 @@
     'license': 'AGPL-3',
     'summary': '',
     'depends': [
-        'purchase',
-        'l10n_ar',
+        'l10n_ar_withholding_ux',
     ],
-    'external_dependencies': {
-    },
     'data': [
-        'views/purchase_report_templates.xml',
+        'views/account_tax_view.xml',
     ],
     'demo': [
     ],
