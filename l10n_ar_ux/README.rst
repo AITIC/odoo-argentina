@@ -18,17 +18,19 @@ This module extends the l10n_ar module to add some usability improvesment:
 
 #. Set tax included by default (for ecommerce)
 #. Change USD symbol to "USD" instead of "$". This to avoid confusion when using multi company environment with ARS and USD at the same time.
-#. Change postion of EUR symbol, Put it before the amounts in order to match to the ARS and USD currencies format,
+#. On journals without documents, add an option to discriminate or not vat taxes.
+#. Change postion of EUR symbol, put it before the amounts in order to match to the ARS and USD currencies format,
 #. Add portal support for AFIP responsability, and Identification type fields.
 #. Show Currency Rate preview on invoice before posting.
 #. Show final Currency Rate on invoice when already posted.
 #. Add account tag data for Argentina (include jurisdiccion ones)
 #. Add tax groups for withholding
-#. Show Name fantasy in the partner form view.
 #. Set Non Monetary tag to accounts depending of the account type
-#. Show Gross Income Jurisdiction in both partner and company
+#. Show Gross Income Jurisdiction on partners
 #. Add a not nice implementation for duplicado/triplicado on invoices (and later on delivery slip with l10n_ar_stock)
-#. Add checks account link to chart template
+#. Add CUIT when using checks or bank transfers
+#. Send due date to journal items for checks payments
+#. Move checks menu into bank and cash menu (this could be on a glue module between account_payment_group and l10n_latam_check)
 
 Installation
 ============
@@ -48,6 +50,10 @@ Usage
 =====
 
 To use this module, you need to:
+
+Uninstall
+=========
+After uninstalling this module, redeploy the database to correctly remove monkey patches. 
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot

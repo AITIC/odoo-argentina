@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0+e\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-04 17:18+0000\n"
 "PO-Revision-Date: 2022-10-04 17:18+0000\n"
@@ -35,6 +35,11 @@ msgstr ""
 
 #. module: l10n_ar_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document
+msgid "<strong>% VAT</strong>"
+msgstr ""
+
+#. module: l10n_ar_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchasequotation_document
 msgid "<strong>Purchase Representative:</strong>"
 msgstr ""
@@ -52,8 +57,19 @@ msgid "<strong>VAT Cond: </strong>"
 msgstr ""
 
 #. module: l10n_ar_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.custom_header_purchaseorder
+msgid "Approve date:"
+msgstr ""
+
+#. module: l10n_ar_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.report_purchaseorder_document
 msgid "Cancelled Purchase Order"
+msgstr ""
+
+#. module: l10n_ar_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.custom_header_purchasequotation
+#: model_terms:ir.ui.view,arch_db:l10n_ar_purchase.custom_header_purchaseorder
+msgid "Date due:"
 msgstr ""
 
 #. module: l10n_ar_purchase

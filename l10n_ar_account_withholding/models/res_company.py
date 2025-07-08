@@ -1,5 +1,7 @@
 from odoo import models, fields, api, _
 # import odoo.tools as tools
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 try:
     from pyafipws.iibb import IIBB
 except ImportError:
@@ -103,7 +105,7 @@ class ResCompany(models.Model):
 
         if not self.arba_cit:
             raise UserError(_(
-                'You must configure ARBA CIT on company %s') % (self.name))
+                'You must configure CIT password on company %s') % (self.name))
 
         try:
             ws = IIBB()
@@ -164,15 +166,19 @@ class ResCompany(models.Model):
                 msg = "%s\n Error %s: %s" % (ws.MensajeError, ws.TipoError, ws.CodigoError)
                 _logger.error('Padron ARBA: %s' % msg)
             else:
-                raise UserError("Padron ARBA: %s\nError %s: %s" % (ws.MensajeError, ws.TipoError, ws.CodigoError))
+                error = True
+                msg = (_('Padron ARBA: %s - %s (%s)') % (ws.MensajeError, ws.TipoError, ws.CodigoError))
+                _logger.error('Padron ARBA: %s' % msg)
 
         if error:
             action = self.env.ref('l10n_ar_account_withholding.act_company_jurisdiction_padron')
             raise RedirectWarning(_(
-                "Obtuvimos un error al consultar el Padron ARBA.\n  %s\n\n"
+                "Hubo un error al consultar el Padron ARBA. "
+                "Para solucionarlo puede seguir los siguientes pasos, los cuales explicamos con más detalle en este video:\n %s\n\n"
                 "Tiene las siguientes opciones:\n  1) Intentar nuevamente más tarde\n"
                 "  2) Cargar la alícuota manualmente en el partner en cuestión\n"
-                "  3) Subir el archivo del padrón utilizando el asistente de Carga de Padrones") % msg,
+                "  3) Subir el archivo del padrón utilizando el Asistente de carga de padrones.\n\n"
+                "Error obtenido:\n%s\n\n") % ('https://docs.google.com/document/d/1Tb_0SGKexakuXMn_0in3Z5zLwoaVOgZhYwhQ7DiFjFw/edit', msg),
                 action.id, _('Ir a Carga de Padrones'))
 
         # no ponemos esto, si no viene alicuota es porque es cero entonces
@@ -193,7 +199,6 @@ class ResCompany(models.Model):
         }
         _logger.info('We get the following data: \n%s' % data)
         return data
-
 
     def get_cordoba_data(self, partner, date):
         """ Obtener alícuotas desde app.rentascordoba.gob.ar
@@ -223,15 +228,18 @@ class ResCompany(models.Model):
 
         # Capturar Códigos de Error.
         # 3 => No Inscripto, 2 => No pasible, 1 => CUIT incorrecta, 0 => OK
-        if code == 3:
+        alicuota_percepcion = 0.0
+        alicuota_retencion = 0.0
+        numero_comprobante = False
+        if code in [1, 3]:
+            # casos como adhoc devuelven 1, no encuentra el cuit.
+            # lo consideramos igual que no inscripto (no queremos que de raise)
+            # estamos guardando igual en el partner info del mensaje (numero_comprobante)
             alicuota_percepcion = self.cdba_alicuota_no_sincripto_percepcion
             alicuota_retencion = self.cdba_alicuota_no_sincripto_retencion
-        elif code == 2:
-            alicuota_percepcion = 0.0
-            alicuota_retencion = 0.0
-        elif code != 0:
-            raise UserError(json_body.get("message"))
-        else:
+            if code == 1:
+                numero_comprobante = json_body.get('message')
+        elif code == 0:
             dict_alic = json_body.get("sdtConsultaAlicuotas")
             alicuota_percepcion = float(dict_alic.get("CRD_ALICUOTA_PER"))
             alicuota_retencion = float(dict_alic.get("CRD_ALICUOTA_RET"))
@@ -245,11 +253,21 @@ class ResCompany(models.Model):
                         'No se puede obtener automáticamente la alicuota para la '
                         'fecha %s. Por favor, ingrese la misma manualmente '
                         'en el partner.' % date)
+        else:
+            numero_comprobante = json_body.get('message')
         data = {
             'alicuota_percepcion': alicuota_percepcion,
             'alicuota_retencion': alicuota_retencion,
         }
+        if numero_comprobante:
+            data['numero_comprobante'] = numero_comprobante
 
         _logger.info("We've got the following data: \n%s" % data)
 
         return data
+
+    @api.model
+    def _process_message_error(self, ws):
+        message = ws.MensajeError
+        message = message.replace('<![CDATA[', '').replace(']]/>','')
+        raise UserError(_('Padron ARBA: %s - %s (%s)') % (ws.CodigoError, message, ws.TipoError))

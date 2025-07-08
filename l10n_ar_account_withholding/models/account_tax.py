@@ -9,13 +9,13 @@ class AccountTax(models.Model):
     amount_type = fields.Selection(
         selection_add=([
             ('partner_tax', 'Alícuota en el Partner'),
-        ])
+        ]), ondelete={'partner_tax': 'set default'}
     )
     withholding_type = fields.Selection(
         selection_add=([
             ('tabla_ganancias', 'Tabla Ganancias'),
             ('partner_tax', 'Alícuota en el Partner'),
-        ])
+        ]), ondelete={'tabla_ganancias': 'set default', 'partner_tax': 'set default'}
     )
     # default_alicuot = fields.Float(
     #     'Alícuota por defecto',
@@ -108,7 +108,7 @@ class AccountTax(models.Model):
                     # hacemos <= porque si es 0 necesitamos que encuentre
                     # la primer regla (0 es en el caso en que la no
                     # imponible sea mayor)
-                    codigo_de_regimen = '119' if regimen.codigo_de_regimen == '119' else ''
+                    codigo_de_regimen = '119' if regimen.codigo_de_regimen == '119' else False
                     escala = self.env['afip.tabla_ganancias.escala'].search([
                         ('importe_desde', '<=', base_amount),
                         ('importe_hasta', '>', base_amount),
@@ -137,7 +137,7 @@ class AccountTax(models.Model):
                 vals['comment'] = "%s x %s" % (
                     base_amount, regimen.porcentaje_no_inscripto / 100.0)
             # TODO, tal vez sea mejor utilizar otro campo?
-            vals['communication'] = "%s - %s" % (
+            vals['ref'] = "%s - %s" % (
                 regimen.codigo_de_regimen, regimen.concepto_referencia)
             vals['period_withholding_amount'] = amount
         return vals
@@ -148,7 +148,7 @@ class AccountTax(models.Model):
             return arba.alicuota_percepcion / 100.0
         return 0.0
 
-    def get_partner_alicuot(self, partner, date):
+    def get_partner_alicuot(self, partner, date, line=None):
         self.ensure_one()
         commercial_partner = partner.commercial_partner_id
         company = self.company_id
@@ -188,18 +188,16 @@ class AccountTax(models.Model):
             cdba_tag = self.env.ref('l10n_ar_ux.tag_tax_jurisdiccion_904')
             if padron_file:
                 nro, alicuot_ret, alicuot_per = padron_file._get_aliquit(commercial_partner)
-                if nro:
-                    return partner.arba_alicuot_ids.sudo().create({
-                        'numero_comprobante': nro,
-                        'alicuota_retencion': float(alicuot_ret),
-                        'alicuota_percepcion': float(alicuot_per),
-                        'partner_id': commercial_partner.id,
-                        'company_id': company.id,
-                        'tag_id': padron_file.jurisdiction_id.id,
-                        'from_date': from_date,
-                        'to_date': to_date,
-
-                    })
+                return partner.arba_alicuot_ids.sudo().create({
+                    'numero_comprobante': nro or 'Alícuota no inscripto',
+                    'alicuota_retencion': float(alicuot_ret) or company.arba_alicuota_no_sincripto_retencion,
+                    'alicuota_percepcion': float(alicuot_per) or company.arba_alicuota_no_sincripto_percepcion,
+                    'partner_id': commercial_partner.id,
+                    'company_id': company.id,
+                    'tag_id': padron_file.jurisdiction_id.id,
+                    'from_date': from_date,
+                    'to_date': to_date,
+                })
             if arba_tag and arba_tag.id in invoice_tags.ids:
                 arba_data = company.get_arba_data(
                     commercial_partner,
@@ -255,12 +253,15 @@ class AccountTax(models.Model):
         return alicuot
 
     def _compute_amount(
-            self, base_amount, price_unit, quantity=1.0, product=None,
-            partner=None):
+            self, base_amount, price_unit, quantity=1.0, product=None, partner=None, fixed_multiplicator=1):
         if self.amount_type == 'partner_tax':
             date = self._context.get('invoice_date', fields.Date.context_today(self))
+
+            if not date:
+                date = fields.Date.context_today(self)
             partner = partner and partner.sudo()
             return base_amount * self.sudo().get_partner_alicuota_percepcion(partner, date)
         else:
             return super(AccountTax, self)._compute_amount(
-                base_amount, price_unit, quantity, product, partner)
+                base_amount, price_unit, quantity=quantity, product=product,
+                partner=partner, fixed_multiplicator=fixed_multiplicator)
