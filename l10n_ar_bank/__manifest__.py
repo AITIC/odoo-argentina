@@ -12,6 +12,7 @@
     ],
     "data": [
         "data/res_bank.xml",
+        "views/res_partner_bank.xml"
     ],
     "installable": True,
     "auto_install": True,

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_bank_form_inherit_maipu" model="ir.ui.view">
+        <field name="name">res.partner.bank.form.inherit.maipu</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="account.view_partner_bank_form_inherit_account"/>
+        <field name="arch" type="xml">
+            <field name="acc_number" position="attributes">
+                <attribute name="string">CBU</attribute>
+            </field>
+            <field name="acc_number" position="after">
+                <field name="account_number"/>
+                <field name="alias"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
