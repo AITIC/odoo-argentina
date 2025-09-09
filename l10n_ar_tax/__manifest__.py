@@ -50,7 +50,7 @@
         "l10n_ar_ux",
         "l10n_ar_withholding",
         "account_payment_pro",
-        "l10n_latam_check_ux",  # para reporte de pagos/recibos
+        # "l10n_latam_check_ux",  # para reporte de pagos/recibos - TODO LOC-AITIC: Va a dar error en reportes pero no me instala el módulo de adhoc.
     ],
     "external_dependencies": {
         "python": ["pyafipws"],

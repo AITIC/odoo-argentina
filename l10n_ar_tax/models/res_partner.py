@@ -4,7 +4,7 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # TODO Borrar? lo estamos usando?
+    # TODO Borrar? lo estamos usando? - No se usa en l10n_ar_tax
     drei = fields.Selection(
         [
             ("activo", "Activo"),
