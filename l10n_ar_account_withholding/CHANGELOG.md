@@ -1,5 +1,10 @@
 # Changelog
 
+## [17.0.1.6.0] - 2026-05-04
+
+### Fixed
+- `_l10n_ar_get_invoice_totals_for_report`: corrected `tax_group_amount_company_currency` for foreign-currency invoices. `_prepare_tax_totals` recomputes taxes from base lines using an already-rounded rate (`amount_currency / balance`), introducing rounding drift vs. the balances stored in the journal entry. For foreign-currency invoices the fix replaces those recomputed values with the real posted balances from the `tax` display-type lines.
+
 ## [17.0.1.5.0] - 2026-03-18
 
 ### Added

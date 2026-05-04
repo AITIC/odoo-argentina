@@ -26,4 +26,23 @@ class AccountMove(models.Model):
         """ Mandamos en contexto el invoice_date para cauclo de impuesto con partner aliquot
         cuando imprimos el reporte de factura """
         self.ensure_one()
-        return super(AccountMove, self.with_context(invoice_date=self.invoice_date))._l10n_ar_get_invoice_totals_for_report()
+        tax_totals = super(AccountMove, self.with_context(invoice_date=self.invoice_date))._l10n_ar_get_invoice_totals_for_report()
+
+        # _prepare_tax_totals computes tax_group_amount_company_currency by recomputing taxes
+        # from base lines using rate = amount_currency / balance (already rounded), which
+        # introduces rounding drift vs. the balance actually stored in the journal entry.
+        # For foreign-currency invoices we replace those values with the real posted balances.
+        if self.currency_id != self.company_id.currency_id:
+            sign = -1 if self.is_inbound(include_receipts=True) else 1
+            tax_group_balance = {}
+            for line in self.line_ids.filtered(lambda l: l.display_type == 'tax'):
+                group_id = line.tax_line_id.tax_group_id.id
+                tax_group_balance[group_id] = tax_group_balance.get(group_id, 0.0) + sign * line.balance
+
+            for subtotal_groups in tax_totals.get('groups_by_subtotal', {}).values():
+                for group in subtotal_groups:
+                    group_id = group.get('tax_group_id')
+                    if group_id in tax_group_balance:
+                        group['tax_group_amount_company_currency'] = tax_group_balance[group_id]
+
+        return tax_totals
