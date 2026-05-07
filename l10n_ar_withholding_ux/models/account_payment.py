@@ -146,9 +146,51 @@ class AccountPayment(models.Model):
         res = super()._get_trigger_fields_to_synchronize()
         return res + ('l10n_ar_withholding_line_ids',)
 
+    def _check_withholding_accounts_types(self):
+        """ Valida que las cuentas usadas para líneas de retención y para la base
+        imponible no estén configuradas con un account_type de partner
+        (`asset_receivable` / `liability_payable`).
+
+        Si lo estuvieran, Odoo las clasificaría como counterpart line del partner
+        en `account.payment._seek_for_lines`, haciendo fallar la validación nativa
+        del move ("must include one and only one receivable/payable account") con
+        un mensaje críptico para el usuario funcional. Detectamos el caso temprano
+        y devolvemos un error accionable indicando exactamente qué cuenta corregir.
+        """
+        self.ensure_one()
+        if not self.l10n_ar_withholding_line_ids:
+            return
+        valid_account_types = self._get_valid_payment_account_types()
+        invalid = []
+        for wth_line in self.l10n_ar_withholding_line_ids:
+            account_id, _trl = wth_line._tax_compute_all_helper()
+            acc = self.env['account.account'].browse(account_id)
+            if acc.account_type in valid_account_types:
+                invalid.append((acc, _('tax "%s"') % wth_line.tax_id.name))
+        base_acc = self.company_id.l10n_ar_tax_base_account_id
+        if base_acc and base_acc.account_type in valid_account_types:
+            invalid.append((base_acc, _('tax base account (Company -> l10n_ar_tax_base_account_id)')))
+        if invalid:
+            details = '\n'.join(
+                '- %s %s [type: %s] -> used by %s' % (a.code, a.name, a.account_type, ctx)
+                for a, ctx in invalid
+            )
+            raise UserError(_(
+                "Invalid withholding account configuration.\n\n"
+                "The following accounts have type 'Payable' (liability_payable) or "
+                "'Receivable' (asset_receivable). Those types are reserved for the "
+                "customer/vendor account of the payment: Odoo only allows ONE such "
+                "account per payment journal entry, so this configuration prevents "
+                "validating payments with withholdings.\n\n"
+                "Please change them to a non-partner type (typically 'Current "
+                "Liabilities'):\n\n%s",
+                details,
+            ))
+
     def _prepare_move_line_default_vals(self, write_off_line_vals=None, force_balance=None):
+        self._check_withholding_accounts_types()
         res = super()._prepare_move_line_default_vals(write_off_line_vals, force_balance=force_balance)
-        res += self._prepare_witholding_write_off_vals()
+        withholding_lines = self._prepare_witholding_write_off_vals()
         wth_amount = sum(self.l10n_ar_withholding_line_ids.mapped('amount'))
         conversion_rate = self.exchange_rate or 1.0
         use_counterpart_exchange_rate = 'counterpart_exchange_rate' in self._fields and self.counterpart_exchange_rate
@@ -160,6 +202,9 @@ class AccountPayment(models.Model):
         # liquidity_accounts = [x.id for x in self._get_valid_liquidity_accounts() if x]
         valid_account_types = self._get_valid_payment_account_types()
 
+        # Solo ajustamos las líneas que vienen del super (liquidez/counterpart),
+        # que son las que tienen claves 'debit'/'credit'. Las líneas de retención
+        # usan 'balance' y se concatenan al final sin tocar.
         for line in res:
             account_id = self.env['account.account'].browse(line['account_id'])
             # if line['account_id'] in liquidity_accounts:
@@ -172,6 +217,7 @@ class AccountPayment(models.Model):
                     line['debit'] += wth_amount
                     if not use_counterpart_exchange_rate:
                         line['amount_currency'] += wth_amount / conversion_rate
+        res += withholding_lines
         return res
 
     ###################################################
