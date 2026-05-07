@@ -1,30 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* l10n_ar_withholding_ux
-# 
-# Translators:
-# Camila Vives, 2024
-# Katherine Zaoral <katherine.zaoral@gmail.com>, 2025
-# Juan José Scarafía <scarafia.juanjose@gmail.com>, 2025
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-05 15:44+0000\n"
-"PO-Revision-Date: 2024-01-19 13:12+0000\n"
-"Last-Translator: Juan José Scarafía <scarafia.juanjose@gmail.com>, 2025\n"
-"Language-Team: Spanish (https://app.transifex.com/adhoc/teams/46451/es/)\n"
+"POT-Creation-Date: 2026-05-07 13:25+0000\n"
+"PO-Revision-Date: 2026-05-07 13:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Plural-Forms: \n"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.actions.report,print_report_name:l10n_ar_withholding_ux.action_report_withholding_certificate
-msgid "'Certificado de Retención Slip - %s' % (object.name or '')"
-msgstr ""
+msgid "'Certificado de Retención Slip - %s.pdf' % (object.name or '')"
+msgstr "'Certificado de Retención - %s.pdf' % (object.name or '')"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_payment_receipt_document
@@ -99,7 +93,7 @@ msgstr "<strong>Cliente: </strong>"
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "<strong>Datos de la retención practicada</strong>"
-msgstr ""
+msgstr "<strong>Datos de la retención practicada</strong>"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_payment_receipt_document
@@ -114,6 +108,9 @@ msgid ""
 "retenciones y el importe a pagar. Útil por ejemplo para pagos con cheques "
 "donde el importe Importe no lo podemos cambiar"
 msgstr ""
+"A partir del importe del pago (campo Importe) + ajuste, se calculan las "
+"retenciones y el importe a pagar. Útil por ejemplo para pagos con cheques "
+"donde el importe Importe no lo podemos cambiar"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.view_account_tax_search
@@ -145,12 +142,12 @@ msgstr "Pagos Acumulados"
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_payment__withholdable_advanced_amount
 msgid "Adjustment / Advance (untaxed)"
-msgstr "Ajuste / Adelanto (sin impuestos)"
+msgstr "Importe a cuenta sujeto a retención"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax__withholding_advances
 msgid "Advances are Withholdable?"
-msgstr "Los adelantos están sujetos a retención?"
+msgstr "Adelantos sujetos a retención?"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__fix_amount
@@ -161,12 +158,12 @@ msgstr "Importe"
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax__withholding_non_taxable_amount
 msgid "Amount to be substracted before applying alicuot"
-msgstr "Importe a ser restado antes de aplicar la alícuota"
+msgstr "Importe a ser descontado antes de aplicar la alícuota"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax__withholding_non_taxable_minimum
 msgid "Amounts lower than this wont't have any withholding"
-msgstr "Importes menores que este no tendrán ninguna retención"
+msgstr "Importes menores a este no van a tener retenciones"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__automatic
@@ -177,41 +174,41 @@ msgstr "Automático"
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax__withholding_amount_type
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__base_amount
 msgid "Base Amount"
-msgstr "Base Imponible"
+msgstr "Importe Base"
 
 #. module: l10n_ar_withholding_ux
 #. odoo-python
 #: code:addons/l10n_ar_withholding_ux/models/account_payment.py:0
 #, python-format
 msgid "Base Ret Cont: "
-msgstr ""
+msgstr "Base Ret Cont: "
 
 #. module: l10n_ar_withholding_ux
 #. odoo-python
 #: code:addons/l10n_ar_withholding_ux/models/account_payment.py:0
 #, python-format
 msgid "Base Ret: "
-msgstr ""
+msgstr "Base Ret: "
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax__withholding_amount_type
 msgid "Base amount used to get withholding amount"
-msgstr "Base imponible usada para obtener el importe de retención"
+msgstr "Importe base usado para obtener el importe de la retención"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.view_account_payment_form
 msgid "Base imponible del pago excedente"
-msgstr ""
+msgstr "Base imponible del pago excedente"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields.selection,name:l10n_ar_withholding_ux.selection__account_tax__withholding_type__based_on_rule
 msgid "Based On Rule"
-msgstr "Basado En Regla"
+msgstr "Basado en Regla"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.actions.report,name:l10n_ar_withholding_ux.action_report_withholding_certificate
 msgid "Certificado de Retención"
-msgstr ""
+msgstr "Certificado de Retención"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_payment_receipt_document
@@ -231,7 +228,7 @@ msgstr "Moneda de la Compañía"
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "Comprobante que origina la retención:"
-msgstr ""
+msgstr "Comprobante que origina la retención:"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__computed_withholding_amount
@@ -262,13 +259,13 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__create_date
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__create_date
 msgid "Created on"
-msgstr "Creado el"
+msgstr "Creadon el"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__display_name
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__display_name
 msgid "Display Name"
-msgstr "Nombre a Mostrar"
+msgstr "Mostrar Nombre"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__domain
@@ -276,30 +273,25 @@ msgid "Domain"
 msgstr "Dominio"
 
 #. module: l10n_ar_withholding_ux
-#: model:ir.model.constraint,message:l10n_ar_withholding_ux.constraint_l10n_ar_payment_withholding_uniq_line
-msgid "El impuesto de retención debe ser único por pago"
-msgstr ""
-
-#. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax_withholding_rule__percentage
 msgid "Enter % ratio between 0-1."
-msgstr "Ingresar el % del ratio comprendido entre 0 y 1"
+msgstr "Ingresar % entre 0-1."
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "Firma Responsable"
-msgstr ""
+msgstr "Firma Responsable"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax_withholding_rule__fix_amount
 msgid "Fixed Amount after percentaje"
-msgstr "Importe fijo después del porcentaje"
+msgstr "Importe Fijo después del porcentaje"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__id
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__withholding_sequence_id
@@ -314,32 +306,53 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax__withholding_accumulated_payments
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__withholding_accumulated_payments
 msgid "If none is selected, then payments are not accumulated"
-msgstr "Si ninguna es seleccionada, entonces los pagos no son acumulados"
+msgstr "Si ninguna se selecciona, entonces los pagos no son acumulados"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__withholdable_advanced_amount
 msgid "Importe a cuenta sujeto a retencion"
-msgstr ""
+msgstr "Importe a cuenta sujeto a retención"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "Importe de la retención:"
-msgstr ""
+msgstr "Importe de la retención:"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "Importe del comprobante que origina la retención:"
-msgstr ""
+msgstr "Importe del comprobante que origina la retención:"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__withholdable_invoiced_amount
 msgid "Importe imputado sujeto a retencion"
-msgstr ""
+msgstr "Importe imputado sujeto a retención"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "Impuesto:"
+msgstr "Impuesto:"
+
+#. module: l10n_ar_withholding_ux
+#. odoo-python
+#: code:addons/l10n_ar_withholding_ux/models/account_payment.py:0
+#, python-format
+msgid ""
+"Invalid withholding account configuration.\n"
+"\n"
+"The following accounts have type 'Payable' (liability_payable) or 'Receivable' (asset_receivable). Those types are reserved for the customer/vendor account of the payment: Odoo only allows ONE such account per payment journal entry, so this configuration prevents validating payments with withholdings.\n"
+"\n"
+"Please change them to a non-partner type (typically 'Current Liabilities'):\n"
+"\n"
+"%s"
 msgstr ""
+"Configuración inválida en cuentas de retención.\n"
+"\n"
+"Las siguientes cuentas tienen tipo 'Por pagar' (liability_payable) o 'Por cobrar' (asset_receivable). Esos tipos están reservados para la cuenta del cliente/proveedor del pago: Odoo solo permite UNA cuenta de ese tipo por asiento de pago, por lo que esta configuración impide validar pagos con retenciones.\n"
+"\n"
+"Cámbielas a un tipo no partner (típicamente 'Pasivo corriente'):\n"
+"\n"
+"%s"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model,name:l10n_ar_withholding_ux.model_account_move
@@ -355,7 +368,7 @@ msgstr "Apunte contable"
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__write_uid
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__write_uid
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr "Última Actualización por"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax_withholding_rule__write_date
@@ -379,12 +392,14 @@ msgid ""
 "Nombre y Apellido Firmante:\n"
 "                                <br/>Cargo:"
 msgstr ""
+"Nombre y Apellido Firmante:\n"
+"                                <br/>Cargo:"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax__withholding_non_taxable_amount
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__withholding_non_taxable_amount
 msgid "Non-taxable Amount"
-msgstr "Importe No Imponible"
+msgstr "Base no Imponible"
 
 #. module: l10n_ar_withholding_ux
 #. odoo-python
@@ -397,12 +412,12 @@ msgstr "El importe no imponible no puede ser mayor al minimo no imponible"
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax__withholding_non_taxable_minimum
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__withholding_non_taxable_minimum
 msgid "Non-taxable Minimum"
-msgstr "Mínimo No Imponible"
+msgstr "Mínimo no imponible"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields.selection,name:l10n_ar_withholding_ux.selection__account_tax__withholding_type__none
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ninguna"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__name
@@ -488,17 +503,17 @@ msgstr "Código Python (retenciones)"
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.view_account_payment_form
 msgid "Re-computar retenciones a partir del 'Importe a Pagar'"
-msgstr ""
+msgstr "Re-computar retenciones a partir del 'Importe a Pagar'"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_l10n_ar_payment_withholding__ref
 msgid "Ref"
-msgstr ""
+msgstr "Ref"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.view_account_payment_form
 msgid "Retenciones"
-msgstr ""
+msgstr "Retenciones"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_tax__withholding_rule_ids
@@ -508,7 +523,7 @@ msgstr "Reglas"
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.report_withholding_certificate_document
 msgid "Régimen / Descripción:"
-msgstr ""
+msgstr "Régimen / Descripción:"
 
 #. module: l10n_ar_withholding_ux
 #. odoo-python
@@ -520,6 +535,10 @@ msgid ""
 "(%s). Deberá quitar  dichos comprobantes de la deuda seleccionada para poder"
 " hacer el correcto cálculo de las retenciones."
 msgstr ""
+"Seleccionó deuda por %s pero aparentemente desea pagar %s. En la deuda "
+"seleccionada hay algunos comprobantes de más que no van a poder ser pagados "
+"(%s). Deberá quitar dichos comprobantes de la deuda seleccionada para poder "
+"hacer el correcto cálculo de las retenciones."
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,field_description:l10n_ar_withholding_ux.field_account_payment__selected_debt_untaxed
@@ -566,7 +585,7 @@ msgstr "Tipo"
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields.selection,name:l10n_ar_withholding_ux.selection__account_tax__withholding_amount_type__untaxed_amount
 msgid "Untaxed Amount"
-msgstr "Importe Sin Impuestos"
+msgstr "Importe sin impuestos"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_payment__withholdable_advanced_amount
@@ -622,7 +641,7 @@ msgstr "Líneas de retención"
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax__withholding_user_error_domain
 #: model:ir.model.fields,help:l10n_ar_withholding_ux.field_account_tax_withholding_rule__domain
 msgid "Write a domain over account voucher module"
-msgstr "Escribir un dominio sobre el módulo del comprobante de cuenta"
+msgstr "Escriba un dominio sobre el modelo account voucher"
 
 #. module: l10n_ar_withholding_ux
 #: model:ir.model.fields.selection,name:l10n_ar_withholding_ux.selection__account_tax__withholding_accumulated_payments__year
@@ -632,9 +651,23 @@ msgstr "Año"
 #. module: l10n_ar_withholding_ux
 #: model:ir.model,name:l10n_ar_withholding_ux.model_account_tax_withholding_rule
 msgid "account.tax.withholding.rule"
-msgstr ""
+msgstr "account.tax.withholding.rule"
 
 #. module: l10n_ar_withholding_ux
 #: model_terms:ir.ui.view,arch_db:l10n_ar_withholding_ux.view_account_payment_form
 msgid "open"
 msgstr "abrir"
+
+#. module: l10n_ar_withholding_ux
+#. odoo-python
+#: code:addons/l10n_ar_withholding_ux/models/account_payment.py:0
+#, python-format
+msgid "tax \"%s\""
+msgstr "impuesto \"%s\""
+
+#. module: l10n_ar_withholding_ux
+#. odoo-python
+#: code:addons/l10n_ar_withholding_ux/models/account_payment.py:0
+#, python-format
+msgid "tax base account (Company -> l10n_ar_tax_base_account_id)"
+msgstr "cuenta de base imponible (Compañía -> l10n_ar_tax_base_account_id)"
