@@ -2,6 +2,23 @@
 
 All notable changes to this module will be documented in this file.
 
+## [17.0.1.14.1] - 2026-05-22
+
+### Fixed
+- `account.move.line._compute_withholding`: corrected the `withholding_id`
+  association on a move line when the payment has multiple withholdings with
+  the same `tax_id`. The previous filter
+  `payment_id.l10n_ar_withholding_line_ids.filtered(lambda x: x.tax_id == rec.tax_line_id)`
+  could return a multi-record recordset; assigning it to a Many2one silently
+  kept only the first record, so every move line for that tax ended up
+  pointing to the same `l10n_ar.payment.withholding` (same certificate
+  number, same base, etc.). Now, when more than one match is found, we
+  disambiguate by `name` (the move line's `name` matches the withholding's
+  `name` because the move sync sets it that way), and always assign `[:1]`
+  to the Many2one to avoid the silent bug. This fixes consumers of
+  `line.withholding_id` in `l10n_ar_account_tax_settlement` (SIFERE,
+  DGR Mendoza, AGIP, DREI, SIRCAR, Misiones, etc.).
+
 ## [17.0.1.14.0]
 
 ### Fixed
