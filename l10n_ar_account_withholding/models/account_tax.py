@@ -190,26 +190,37 @@ class AccountTax(models.Model):
                     'to_date': to_date,
                 })
             if arba_tag and arba_tag.id in invoice_tags.ids:
-                arba_data = company.get_arba_data(
-                    commercial_partner,
-                    from_date, to_date,
-                )
-                # si no hay numero de comprobante entonces es porque no
-                # figura en el padron, aplicamos alicuota no inscripto
-                if not arba_data['numero_comprobante']:
-                    arba_data['numero_comprobante'] = \
-                        'Alícuota no inscripto'
-                    arba_data['alicuota_retencion'] = \
-                        company.arba_alicuota_no_sincripto_retencion
-                    arba_data['alicuota_percepcion'] = \
-                        company.arba_alicuota_no_sincripto_percepcion
+                if not company.arba_cit:
+                    self.env['bus.bus']._sendone(
+                        self.env.user.partner_id,
+                        'simple_notification',
+                        {
+                            'title': _('ARBA'),
+                            'message': _('No hay clave CIT de ARBA configurada en la empresa "%s". Se omite la consulta al padrón.') % company.name,
+                            'warning': True,
+                        }
+                    )
+                else:
+                    arba_data = company.get_arba_data(
+                        commercial_partner,
+                        from_date, to_date,
+                    )
+                    # si no hay numero de comprobante entonces es porque no
+                    # figura en el padron, aplicamos alicuota no inscripto
+                    if not arba_data['numero_comprobante']:
+                        arba_data['numero_comprobante'] = \
+                            'Alícuota no inscripto'
+                        arba_data['alicuota_retencion'] = \
+                            company.arba_alicuota_no_sincripto_retencion
+                        arba_data['alicuota_percepcion'] = \
+                            company.arba_alicuota_no_sincripto_percepcion
 
-                arba_data['partner_id'] = commercial_partner.id
-                arba_data['company_id'] = company.id
-                arba_data['tag_id'] = arba_tag.id
-                arba_data['from_date'] = from_date
-                arba_data['to_date'] = to_date
-                alicuot = partner.arba_alicuot_ids.sudo().create(arba_data)
+                    arba_data['partner_id'] = commercial_partner.id
+                    arba_data['company_id'] = company.id
+                    arba_data['tag_id'] = arba_tag.id
+                    arba_data['from_date'] = from_date
+                    arba_data['to_date'] = to_date
+                    alicuot = partner.arba_alicuot_ids.sudo().create(arba_data)
             elif agip_tag and agip_tag.id in invoice_tags.ids:
                 agip_data = company.get_agip_data(
                     commercial_partner,
