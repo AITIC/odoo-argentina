@@ -1,5 +1,15 @@
 # Changelog
 
+## [17.0.1.6.1] - 2026-06-11
+
+### Fixed
+
+- Se corrige error al calcular retenciones en empresas que son agentes de
+  retención de AGIP pero no de ARBA. Cuando el impuesto tiene la jurisdicción
+  ARBA (902) pero la empresa no tiene clave CIT configurada, en lugar de un
+  diálogo bloqueante se muestra una notificación no bloqueante (toast) indicando
+  que se omitió la consulta al padrón ARBA.
+
 ## [17.0.1.6.0] - 2026-05-04
 
 ### Fixed
