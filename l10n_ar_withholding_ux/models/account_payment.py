@@ -136,8 +136,8 @@ class AccountPayment(models.Model):
                         commands.append(Command.update(line.id, {'name': line.tax_id.l10n_ar_withholding_sequence_id.next_by_id()}))
                     else:
                         raise UserError(_('Please enter withholding number for tax %s or configure a sequence on that tax') % line.tax_id.name)
-                if commands:
-                    rec.l10n_ar_withholding_line_ids = commands
+            if commands:
+                rec.l10n_ar_withholding_line_ids = commands
 
         return super().action_post()
 

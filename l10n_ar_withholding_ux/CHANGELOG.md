@@ -2,6 +2,19 @@
 
 All notable changes to this module will be documented in this file.
 
+## [17.0.1.15.0] - 2026-06-19
+
+### Fixed
+- `account.payment.action_post`: the `rec.l10n_ar_withholding_line_ids = commands`
+  write that assigns sequence numbers to withholding lines was incorrectly placed
+  **inside** the `for line in rec.l10n_ar_withholding_line_ids` loop. This caused
+  one full `_synchronize_to_moves` cycle (delete + rebuild of all withholding move
+  lines) per withholding line instead of once at the end. With N withholding lines,
+  N−1 redundant sync cycles ran before posting, each temporarily unbalancing the
+  OP-X move and rebuilding it. The write is now placed **after** the loop so the
+  sequence numbers for all lines are committed in a single operation, reducing
+  unnecessary sync cycles and the risk of intermediate unbalanced states.
+
 ## [17.0.1.14.1] - 2026-05-22
 
 ### Fixed
