@@ -18,6 +18,15 @@ class AccountMove(models.Model):
         """ Mandamos en contexto el invoice_date para cauclo de impuesto con partner aliquot"""
         invoices = self.filtered(lambda x: x.is_invoice(include_receipts=True))
         for invoice in invoices:
+            if not invoice.currency_id:
+                # Odoo core's _compute_tax_totals (account_move.py) does
+                # `move.currency_id.is_zero(...)` without falling back to journal/company
+                # currency, unlike the rest of the method. If currency_id hasn't been
+                # computed yet (eg. right when creating a move, before journal_id is set),
+                # that raises "ValueError: Expected singleton: res.currency()".
+                # Fill it with the same fallback the core method itself uses a few lines
+                # above, so the onchange/compute chain doesn't crash on an empty currency.
+                invoice.currency_id = invoice.journal_id.currency_id or invoice.company_id.currency_id
             invoice = invoice.with_context(invoice_date=invoice.invoice_date if not invoice.reversed_entry_id else invoice.reversed_entry_id.invoice_date)
             super(AccountMove, invoice)._compute_tax_totals()
         super(AccountMove, self - invoices)._compute_tax_totals()

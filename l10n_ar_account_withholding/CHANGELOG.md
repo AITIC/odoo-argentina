@@ -1,5 +1,17 @@
 # Changelog
 
+## [17.0.1.6.2] - 2026-07-13
+
+### Fixed
+
+- `_compute_tax_totals`: se corrige `ValueError: Expected singleton: res.currency()`
+  al crear una factura/asiento. El core de Odoo (`account_move.py`, desde el fix de
+  negative zeroes en las totales del PDF) llama `move.currency_id.is_zero(...)` sin el
+  fallback a `journal_id.currency_id`/`company_id.currency_id` que usa el resto del
+  método, y `currency_id` puede llegar vacío en medio de la cadena de onchanges (p. ej.
+  antes de que se fije el diario). Se rellena `invoice.currency_id` con ese mismo
+  fallback antes de delegar en `super()` para evitar el crash.
+
 ## [17.0.1.6.1] - 2026-06-11
 
 ### Fixed
