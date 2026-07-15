@@ -1,4 +1,4 @@
-from odoo import models
+from odoo import api, models
 
 
 class AccountMove(models.Model):
@@ -30,6 +30,26 @@ class AccountMove(models.Model):
             invoice = invoice.with_context(invoice_date=invoice.invoice_date if not invoice.reversed_entry_id else invoice.reversed_entry_id.invoice_date)
             super(AccountMove, invoice)._compute_tax_totals()
         super(AccountMove, self - invoices)._compute_tax_totals()
+
+    @api.depends('company_id', 'partner_id', 'tax_totals', 'currency_id')
+    def _compute_partner_credit_warning(self):
+        """ Odoo core (account_move.py) reads move.currency_id to pick which key to read
+        from move.tax_totals, then accesses move.tax_totals right after: `total_field =
+        'amount_total' if move.currency_id == move.company_currency_id else
+        'amount_total_company_currency'; current_amount = move.tax_totals[total_field]`.
+        On a brand-new invoice (no journal chosen yet) currency_id is still empty when
+        core reads it, so it decides it needs 'amount_total_company_currency'. But
+        accessing move.tax_totals right after triggers our _compute_tax_totals above,
+        which fills the empty currency_id with the company currency as a side effect -
+        so the dict ends up built for "same currency" and omits that key, and core's
+        KeyErrors. Force tax_totals (and the currency_id fallback) to settle first, and
+        guarantee the key core is about to look for actually exists.
+        """
+        for move in self:
+            totals = move.tax_totals
+            if isinstance(totals, dict) and 'amount_total_company_currency' not in totals:
+                totals['amount_total_company_currency'] = totals.get('amount_total', 0.0)
+        return super()._compute_partner_credit_warning()
 
     def _l10n_ar_get_invoice_totals_for_report(self):
         """ Mandamos en contexto el invoice_date para cauclo de impuesto con partner aliquot

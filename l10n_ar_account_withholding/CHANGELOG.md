@@ -1,5 +1,21 @@
 # Changelog
 
+## [17.0.1.6.3] - 2026-07-15
+
+### Fixed
+
+- `_compute_partner_credit_warning`: se corrige `KeyError: 'amount_total_company_currency'`
+  al crear una factura. El core (`account_move.py`) lee `move.currency_id` para decidir
+  si necesita la clave `amount_total` o `amount_total_company_currency` de
+  `move.tax_totals`, y accede a `move.tax_totals` recién después. En una factura nueva
+  sin diario asignado, `currency_id` todavía está vacío en ese primer momento, así que
+  el core decide que necesita `amount_total_company_currency`; pero al acceder a
+  `tax_totals` se dispara nuestro `_compute_tax_totals` (ver fix 17.0.1.6.2), que rellena
+  ese mismo `currency_id` vacío con la moneda de la compañía como efecto colateral,
+  dejando el diccionario armado como si la moneda coincidiera con la de la compañía (sin
+  esa clave). Se fuerza el cálculo de `tax_totals` (estabilizando ese fallback) antes de
+  delegar en `super()`, y se garantiza que la clave siempre esté presente.
+
 ## [17.0.1.6.2] - 2026-07-13
 
 ### Fixed
