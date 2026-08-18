@@ -30,14 +30,27 @@ class AccountMove(models.Model):
         invoice_date = invoice.invoice_date or fields.Date.context_today(self)
         self = self.with_context(invoice_date=invoice_date)
         for move in self:
+            fallback_currency = move.currency_id or move.company_id.currency_id or self.env.company.currency_id
             if not move.currency_id:
-                fallback_currency = move.company_id.currency_id or self.env.company.currency_id
                 _logger.warning(
                     "account.move id=%s (%s) sin currency_id al recalcular impuestos; "
                     "se usa la moneda de la compañía (%s) como resguardo.",
                     move.id or 'new', move.name or move.ref or '/', fallback_currency.name,
                 )
                 move.currency_id = fallback_currency
+            # account.move.line.currency_id no tiene default: si una línea (ej. la de
+            # anticipo) se arma sin currency_id, _get_tax_grouping_key_from_base_line del
+            # core usa base_line.currency_id.id (False) y currency.is_zero() explota con
+            # "Expected singleton: res.currency()".
+            lines_without_currency = move.line_ids.filtered(lambda l: not l.currency_id)
+            if lines_without_currency:
+                _logger.warning(
+                    "account.move id=%s (%s): %s línea/s sin currency_id al recalcular "
+                    "impuestos; se completan con %s como resguardo.",
+                    move.id or 'new', move.name or move.ref or '/',
+                    len(lines_without_currency), fallback_currency.name,
+                )
+                lines_without_currency.currency_id = fallback_currency
         return super(AccountMove, self)._recompute_tax_lines(recompute_tax_base_amount=recompute_tax_base_amount, tax_rep_lines_to_recompute=tax_rep_lines_to_recompute)
 
     @api.onchange('invoice_date', 'reversed_entry_id')
