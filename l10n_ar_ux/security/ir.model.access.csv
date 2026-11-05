@@ -6,3 +6,4 @@ access_afip_activity_all,access_afip_activity_all,model_afip_activity,base.group
 access_afip_concept_all,access_afip_concept_all,model_afip_concept,base.group_user,1,0,0,0
 access_afip_tax_all,access_afip_tax_all,model_afip_tax,base.group_user,1,0,0,0
 access_account_move_change_rate,access_account_move_change_rate,l10n_ar_ux.model_account_move_change_rate,base.group_user,1,1,1,0
+access_l10n_ar_afip_service_status_user,ARCA service status (internal users),model_l10n_ar_afip_service_status,base.group_user,1,0,0,0

@@ -1,6 +1,6 @@
 {
     'name': 'Argentinian Accounting UX',
-    'version': "17.0.1.8.0",
+    'version': "17.0.1.9.0",
     'category': 'Localization/Argentina',
     'sequence': 14,
     'author': 'ADHOC SA',
@@ -9,11 +9,18 @@
     'summary': '',
     'depends': [
         'l10n_ar',
+        'account_ux',
+        'l10n_latam_check',
         # 'l10n_ar_withholding',
     ],
     'data': [
+        'security/ir.model.access.csv',
+        'security/l10n_ar_ux_security.xml',
         'data/res_currency_data.xml',
         'data/account_account_tag_data.xml',
+        'data/res_groups_data.xml',
+        'data/arca_service_status_data.xml',
+        # The invoice form references this action, so it must be loaded first.
         'wizards/account_move_change_rate_views.xml',
         'views/portal_templates.xml',
         'views/account_move_view.xml',
@@ -21,18 +28,27 @@
         'views/afip_concept_view.xml',
         'views/afip_activity_view.xml',
         'views/afip_tax_view.xml',
-        'views/report_invoice.xml',
-        'reports/report_account_transfer.xml',
         'views/account_payment_view.xml',
         'views/account_journal_views.xml',
         'views/ir_actions_views.xml',
+        'views/account_fiscal_position_view.xml',
         'wizards/res_config_settings_views.xml',
+        'views/report_invoice.xml',
+        'reports/report_account_transfer.xml',
         'reports/account_invoice_report_view.xml',
-        'security/ir.model.access.csv',
-        'security/l10n_ar_ux_security.xml',
-        'data/res_groups_data.xml',
-        'views/account_fiscal_position_view.xml'
     ],
+    'assets': {
+        'web.assets_backend': [
+            'l10n_ar_ux/static/src/js/arca_status_systray.js',
+            'l10n_ar_ux/static/src/xml/arca_status_systray.xml',
+            'l10n_ar_ux/static/src/scss/arca_status_systray.scss',
+        ],
+        'web.qunit_suite_tests': [
+            'l10n_ar_ux/static/src/js/arca_status_systray.js',
+            'l10n_ar_ux/static/src/xml/arca_status_systray.xml',
+            'l10n_ar_ux/static/tests/arca_status_systray_tests.js',
+        ],
+    },
     'demo': [
     ],
     'installable': True,
